@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1307671134",
+    "firebase_url": "https://savoirvivre-627cd.firebaseio.com",
+    "project_id": "savoirvivre-627cd",
+    "storage_bucket": "savoirvivre-627cd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1307671134:android:878127f541835a3d",
+        "android_client_info": {
+          "package_name": "com.veriqus.savoirvivre"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1307671134-7auf62o67jogmhtc0hqhu3pi7dkudp6m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.veriqus.savoirvivre",
+            "certificate_hash": "0fe1aace8c20a3bf23ba080898bb12479bc23961"
+          }
+        },
+        {
+          "client_id": "1307671134-6j4bp3fvape1k4lu7h54js6hgine4duh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8HqGiZ8c5qZH0PYtjp498_gC56wAzacE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1307671134-6j4bp3fvape1k4lu7h54js6hgine4duh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,78 @@
+<resources>
+    <string name="app_name">Be Kind</string>
+    <string name="categories">Categories</string>
+    <string name="settings">Settings</string>
+    <string name="learning">Learning</string>
+    <string name="quiz">Quiz</string>
+    <string name="home" translatable="false">Home</string>
+    <string name="random">Random tip</string>
+    <string name="saved_articles">My List</string>
+    <string name="no_article">There\'s no article yet</string>
+    <string name="no_saved_article">You don\'t have any saved articles :(\n\nGo, and explore! </string>
+    <string name="credits">Credits</string>
+    <string name="contact">Contact with us!</string>
+    <string name="suggestions">Suggestions</string>
+    <string name="send_mail">"Send mail..."</string>
+    <string name="other_apps">Check other apps</string>
+    <string name="share">Share</string>
+    <string name="version">Version</string>
+    <string name="facebook" translatable="false">Facebook</string>
+    <string name="developer">Developer Site</string>
+    <string name="share_desc">Check this new app \"Be Kind\" - and learn some savoir-vivre stuff http://veriqus.com</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="action_favorite">Save</string>
+
+    <!-- MAIN Category -->
+    <string name="category_1">Media</string>
+    <string name="category_2">At the table</string>
+    <string name="category_3">Interpersonal communication</string>
+    <string name="category_4">Celebrations</string>
+    <string name="category_5">Public places</string>
+    <string name="category_6">Various tips</string>
+
+    <!-- SUB Category 1 -->
+    <string name="subCat1_1_phone">Phone</string>
+    <string name="subCat1_2_mail">Mail</string>
+    <string name="subCat1_3_socialmedia">Social Media</string>
+
+    <!-- SUB Category 2 -->
+    <string name="subCat2_1_restaurant">Restaurant</string>
+    <string name="subCat2_2_home">Home</string>
+    <string name="subCat2_3_servingalcohol">Serving alcohol</string>
+
+    <!-- SUB Category 3 -->
+    <string name="subCat3_1_appearance">Appearance</string>
+    <string name="subCat3_2_gifts">Gifts</string>
+    <string name="subCat3_3_greetings">Greetings and farewells</string>
+    <string name="subCat3_4_guests">Guests</string>
+    <string name="subCat3_5_dance">Dance</string>
+    <string name="subCat3_6_date">Date</string>
+    <string name="subCat3_7_job">Job</string>
+    <string name="subCat3_8_disabled">Disabled</string>
+    <string name="subCat3_9_cigarettes">Cigarettes</string>
+    <string name="subCat3_10_conversation">Conversations</string>
+
+
+    <!-- SUB Category 4 -->
+    <string name="subCat4_1_birthday">Birthday</string>
+    <string name="subCat4_2_wedding">Wedding</string>
+    <string name="subCat4_3_funeral">Funeral</string>
+
+    <!-- SUB Category 5 -->
+    <string name="subCat5_1_religion">Religion</string>
+    <string name="subCat5_2_shop">Shopping</string>
+    <string name="subCat5_3_gym">Gym</string>
+    <string name="subCat5_4_sauna">Sauna</string>
+    <string name="subCat5_5_events">Events</string>
+    <string name="subCat5_6_publictransport">Public transport</string>
+    <string name="subCat5_7_journey">Journey</string>
+    <string name="subCat5_8_hospital">Hospital</string>
+
+
+    <!-- SUB Category 6 -->
+    <string name="subCat6_1_dictionary">Dictionary</string>
+    <string name="subCat6_2_animals">Animals</string>
+    <string name="subCat6_3_children">Children</string>
+    <string name="subCat6_4_others">Others</string>
+
+</resources>

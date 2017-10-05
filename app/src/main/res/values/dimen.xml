@@ -1,0 +1,7 @@
+<resources>
+
+    <dimen name="cat_height">20dp</dimen>
+    <dimen name="img_cat_size">40dp</dimen>
+
+
+</resources>
