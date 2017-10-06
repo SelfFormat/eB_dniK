@@ -225,6 +225,11 @@ public class MainActivity
         return text;
     }
 
+    public String getArticleType(String name) {
+        String text = databaseAccess.getArticleType(name);
+        return text;
+    }
+
     public String getArticleContentbyID(String id) {
         return databaseAccess.getArticleContentbyID(id);
     }
