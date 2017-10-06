@@ -14,4 +14,8 @@ public class ItemList {
         this.title = title;
         this.content = content;
     }
+
+    public ItemList(String content) {
+        this.content = content;
+    }
 }
