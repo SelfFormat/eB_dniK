@@ -3,24 +3,22 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp">
+    android:padding="12dp">
 
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp"
+        android:padding="10dp"
         card_view:cardElevation="2dp"
         card_view:cardUseCompatPadding="true">
 
         <TextView
             android:id="@+id/content_text_article_list"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:padding="20dp"
-            />
+            android:layout_margin="20dp"
+            android:textSize="18sp"/>
 
         <!--TODO: If not null Image, set margin some value-->
 
