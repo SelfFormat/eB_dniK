@@ -23,6 +23,8 @@
     <string name="action_favorite">Save</string>
     <string name="good">Good habit</string>
     <string name="bad">Bad habit</string>
+    <string name="gotit">Ok, got it!</string>
+    <string name="repetiton">Come back later</string>
 
     <!-- MAIN Category -->
     <string name="category_1">Media</string>
