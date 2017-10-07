@@ -49,6 +49,7 @@ public class ListArticlesFragment extends Fragment {
 
 
         Bundle bundle = getArguments();
+
         String categoryName = bundle.getString(PASSED_VALUE);
         String categoryID = getCategoryIDByName(categoryName);
 

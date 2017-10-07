@@ -138,12 +138,13 @@ public class MainActivity
 
     @Override
     public void onArticleSelected(String name) {
-        //ArticleFragment newFragment = new ArticleFragment();
+        //new fragment stop error: fragment already active
+        ArticleFragment newFragment = new ArticleFragment();
         Bundle args = new Bundle();
-        args.putString(ArticleFragment.ARTICLE_NAME, name);
-        articleFragment.setArguments(args);
+        args.putString(newFragment.ARTICLE_NAME, name);
+        newFragment.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, articleFragment);
+        transaction.replace(R.id.fragment_container, newFragment);
         transaction.addToBackStack("article");
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         // Commit the transaction
