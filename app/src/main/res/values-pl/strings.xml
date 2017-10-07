@@ -59,4 +59,6 @@
     <string name="good">Dobre nawyki</string>
     <string name="gotit">Ok, już pamiętam!</string>
     <string name="repetiton">Wymaga powtórki</string>
+    <string name="startLearning">Rozpocznij naukę</string>
+    <string name="showAll">Pokaż wszystko</string>
 </resources>

@@ -78,5 +78,7 @@
     <string name="subCat6_2_animals">Animals</string>
     <string name="subCat6_3_children">Children</string>
     <string name="subCat6_4_others">Others</string>
+    <string name="startLearning">Start Learning</string>
+    <string name="showAll">Show All</string>
 
 </resources>
