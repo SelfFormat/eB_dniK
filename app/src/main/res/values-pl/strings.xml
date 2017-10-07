@@ -25,7 +25,6 @@
     <string name="version">wersja</string>
     <string name="category_5">Miejsca publiczne</string>
     <string name="category_6">Różne porady</string>
-    <string name="credits" translatable="false">Credits</string>
     <string name="developer">Poznaj Programistę</string>
     <string name="share_desc">Sprawdź nową aplikację \"Be Kind\" - i dowiedz się więcej o savoir-vivre http://veriqus.com</string>
     <string name="subCat2_1_restaurant">Restauracja</string>
@@ -56,4 +55,8 @@
     <string name="subCat6_1_dictionary">Słowniczek</string>
     <string name="subCat6_2_animals">Zwierzęta</string>
     <string name="subCat6_3_children">Dzieci</string>
+    <string name="bad">Złe nawyki</string>
+    <string name="good">Dobre nawyki</string>
+    <string name="gotit">Ok, już pamiętam!</string>
+    <string name="repetiton">Wymaga powtórki</string>
 </resources>
