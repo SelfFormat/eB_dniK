@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,6 +47,14 @@ public class ArticleFragment extends Fragment {
         Resources r = getResources();
         int dip20 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, r.getDisplayMetrics());
 
+
+        Button goodButton = (Button) rootView.findViewById(R.id.goodButton);
+        goodButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "OK", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         TextView articleTitleText = (TextView) rootView.findViewById(R.id.articleTitle);
 

@@ -7,59 +7,114 @@
     android:background="@color/colorPrimary"
     android:orientation="vertical">
 
-    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout
+        android:id="@+id/cardLay"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_margin="36dp"
-        android:padding="20dp"
-        card_view:cardCornerRadius="6dp"
-        card_view:cardUseCompatPadding="true">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/goodBadButtons">
 
-        <LinearLayout
+
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_centerInParent="true"
+            android:layout_margin="36dp"
+            android:padding="20dp"
+            card_view:cardCornerRadius="6dp"
+            card_view:cardUseCompatPadding="true">
 
-            <TextView
-                android:id="@+id/articleTitle"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark"
-                android:padding="16dp"
-                android:text="Title"
-                android:textAlignment="center"
-                android:textAllCaps="true"
-                android:textColor="#FFFFFF"
-                android:textSize="22dp" />
+                android:orientation="vertical">
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
+                <TextView
+                    android:id="@+id/articleTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:background="@color/colorPrimaryDark"
+                    android:padding="16dp"
+                    android:text="Title"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="#FFFFFF"
+                    android:textSize="22dp" />
 
-                    <TextView
-                        android:id="@+id/articleContent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
-                        android:text="content"
-                        android:textSize="18sp" />
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                    <ImageView
-                        android:id="@+id/imgPlace"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-                </LinearLayout>
-            </ScrollView>
+                        <TextView
+                            android:id="@+id/articleContent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:text="content"
+                            android:textSize="18sp" />
+
+                        <ImageView
+                            android:id="@+id/imgPlace"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+                </ScrollView>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/goodBadButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/goodButton"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/good"
+                android:textColor="@android:color/white"
+                android:background="@color/colorGood"
+                android:foreground="?android:attr/selectableItemBackground"/>
+
+            <Button
+                android:id="@+id/badButton"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBad"
+                android:textColor="@android:color/white"
+                android:text="@string/bad"
+                android:foreground="?android:attr/selectableItemBackground"/>
 
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@android:color/white">
+        </View>
+
+
+    </LinearLayout>
 
 </RelativeLayout>
