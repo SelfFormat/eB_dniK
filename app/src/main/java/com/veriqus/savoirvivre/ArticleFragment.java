@@ -1,12 +1,14 @@
 package com.veriqus.savoirvivre;
 
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,6 +42,10 @@ public class ArticleFragment extends Fragment {
         Bundle bundle = getArguments();
         articleName = bundle.getString(ARTICLE_NAME);
 
+        //pixel to dp conversion
+        Resources r = getResources();
+        int dip20 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, r.getDisplayMetrics());
+
 
         TextView articleTitleText = (TextView) rootView.findViewById(R.id.articleTitle);
 
@@ -69,6 +75,7 @@ public class ArticleFragment extends Fragment {
 
         // Retrieve the selected image as byte[]
         if (((MainActivity) getActivity()).getImageByte(articleName) != null) {
+            imgPlace.setPadding(0,0,0,dip20);
             byte[] data = ((MainActivity) getActivity()).getImageByte(articleName);
             // Convert to Bitmap
             Bitmap image = toBitmap(data);

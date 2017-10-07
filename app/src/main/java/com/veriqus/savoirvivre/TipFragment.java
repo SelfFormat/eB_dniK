@@ -1,11 +1,14 @@
 package com.veriqus.savoirvivre;
 
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,8 +43,23 @@ public class TipFragment extends Fragment {
 //        articleName = bundle.getString(ARTICLE_NAME_TIP);
         articleName = ((MainActivity)getActivity()).getRandromTitle();
 
+        //pixel to dp conversion
+        Resources r = getResources();
+        int dip20 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, r.getDisplayMetrics());
+
+
         TextView articleTitleText = (TextView) rootView.findViewById(R.id.articleTitle);
         articleTitleText.setText(articleName);
+
+        String articleType = ((MainActivity) this.getContext()).getArticleType(articleName);
+
+        if (articleType.equals("good")) {
+            articleTitleText.setBackgroundColor(Color.parseColor("#009688"));
+            articleTitleText.setText(getContext().getText(R.string.good));
+        } else if (articleType.equals("bad")) {
+            articleTitleText.setBackgroundColor(Color.parseColor("#A54E4E"));
+            articleTitleText.setText(getContext().getText(R.string.bad));
+        }
 
         TextView articleContentText = (TextView) rootView.findViewById(R.id.articleContent);
 
@@ -55,6 +73,7 @@ public class TipFragment extends Fragment {
 
         // Retrieve the selected image as byte[]
         if (((MainActivity) getActivity()).getImageByte(articleName) != null) {
+            imgPlace.setPadding(0,0,0,dip20);
             byte[] data = ((MainActivity) getActivity()).getImageByte(articleName);
             // Convert to Bitmap
             Bitmap image = toBitmap(data);
