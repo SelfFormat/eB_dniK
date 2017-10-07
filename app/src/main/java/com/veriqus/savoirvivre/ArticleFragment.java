@@ -57,7 +57,6 @@ public class ArticleFragment extends Fragment {
         });
 
         TextView articleTitleText = (TextView) rootView.findViewById(R.id.articleTitle);
-
         //Article won't have name anymore
         //articleTitleText.setText(articleName);
 
