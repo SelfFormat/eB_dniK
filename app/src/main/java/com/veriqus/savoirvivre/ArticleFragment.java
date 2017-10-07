@@ -3,6 +3,7 @@ package com.veriqus.savoirvivre;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -41,9 +42,22 @@ public class ArticleFragment extends Fragment {
 
 
         TextView articleTitleText = (TextView) rootView.findViewById(R.id.articleTitle);
-        articleTitleText.setText(articleName);
+
+        //Article won't have name anymore
+        //articleTitleText.setText(articleName);
 
         TextView articleContentText = (TextView) rootView.findViewById(R.id.articleContent);
+
+        String articleType = ((MainActivity) this.getContext()).getArticleType(articleName);
+
+        if (articleType.equals("good")) {
+            articleTitleText.setBackgroundColor(Color.parseColor("#009688"));
+            articleTitleText.setText(getContext().getText(R.string.good));
+        } else if (articleType.equals("bad")) {
+            articleTitleText.setBackgroundColor(Color.parseColor("#A54E4E"));
+            articleTitleText.setText(getContext().getText(R.string.bad));
+        }
+
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             articleContentText.setText(Html.fromHtml(((MainActivity)getActivity()).getArticleContent(articleName),Html.FROM_HTML_MODE_LEGACY));
@@ -61,6 +75,9 @@ public class ArticleFragment extends Fragment {
             // Set to the imgPlace
             imgPlace.setImageBitmap(image);
         }
+
+
+
         return rootView;
     }
 
