@@ -46,14 +46,11 @@ public class ModeFragment extends Fragment {
         TextView learnCat = (TextView) rootView.findViewById(R.id.textView2);
         learnCat.setText(categoryName);
 
-        TextView goodHabit = (TextView) rootView.findViewById(R.id.textView2);
-        goodHabit.setText(categoryName);
+        View goodHabit = rootView.findViewById(R.id.goodHabitLinear);
 
-        TextView badHabit = (TextView) rootView.findViewById(R.id.textView2);
-        badHabit.setText(categoryName);
+        View badHabit = rootView.findViewById(R.id.badHabitLinear);
 
-        TextView showAll = (TextView) rootView.findViewById(R.id.textView2);
-        showAll.setText(categoryName);
+        View showAll = rootView.findViewById(R.id.showAllLinear);
 
         learn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +76,6 @@ public class ModeFragment extends Fragment {
                 mCallback.onModeSelected(categoryName);
             }
         });
-
 
         return rootView;
     }
