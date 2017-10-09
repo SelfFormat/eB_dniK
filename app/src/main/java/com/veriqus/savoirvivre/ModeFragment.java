@@ -74,7 +74,7 @@ public class ModeFragment extends Fragment {
         showAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.onModeSelected(categoryName, "bad");
+                mCallback.onModeSelected(categoryName, "all");
             }
         });
 
