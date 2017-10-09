@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class ListArticlesFragment extends Fragment {
     OnArticleSelectedListener mCallback;
     View rootView;
     static String CATEGORYNAME_VALUE;
-    static String TYPE_VALUE;
+    //static String TYPE_VALUE;
 
 
     public ListArticlesFragment() {
@@ -53,12 +54,12 @@ public class ListArticlesFragment extends Fragment {
         Bundle bundle = getArguments();
 
 
-//        TODO: Rename CATEGORYNAME_VALUE to CATEGORYNAME_VALUE
         String categoryName = bundle.getString(CATEGORYNAME_VALUE);
-        String categoryID = ((MainActivity)getActivity()).getCategoryIDByName(categoryName);
+        String type = bundle.getString("TYPE_VALUE");
 
-//        TODO: Content based on type in database
-//        String type = bundle.getString(NAME_VALUE);
+        Toast.makeText(getContext(), type, Toast.LENGTH_SHORT).show();
+
+        String categoryID = ((MainActivity)getActivity()).getCategoryIDByName(categoryName);
 
 
         listView = (ListView) rootView.findViewById(R.id.listVi);

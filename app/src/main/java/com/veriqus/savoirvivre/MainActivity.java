@@ -138,6 +138,21 @@ public class MainActivity
     }
 
     @Override
+    public void onModeSelected(String name, String mode) {
+        Bundle args = new Bundle();
+        args.putString(ModeFragment.PASSED_VALUE, name);
+        args.putString("TYPE_VALUE", mode);
+        listArticlesFragment.setArguments(args);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, listArticlesFragment);
+        transaction.addToBackStack("subCategory");
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        setAppBarName(name);
+        transaction.commit();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
     public void onModeSelected(String name) {
         Bundle args = new Bundle();
         args.putString(ModeFragment.PASSED_VALUE, name);

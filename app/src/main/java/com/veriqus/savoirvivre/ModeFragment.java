@@ -18,7 +18,7 @@ public class ModeFragment extends Fragment {
     onModeSelectedListener mCallback;
     View rootView;
     static String PASSED_VALUE;
-    static String MODE_VALUE;
+    static String TYPE_VALUE = "good";
 
     public ModeFragment() {
         // Required empty public constructor
@@ -26,6 +26,7 @@ public class ModeFragment extends Fragment {
 
     // Container Activity must implement this interface
     public interface onModeSelectedListener {
+        public void onModeSelected(String name, String mode);
         public void onModeSelected(String name);
     }
 
@@ -55,25 +56,25 @@ public class ModeFragment extends Fragment {
         learn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.onModeSelected(categoryName);
+                mCallback.onModeSelected(categoryName, "good");
             }
         });
         goodHabit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.onModeSelected(categoryName);
+                mCallback.onModeSelected(categoryName, "bad");
             }
         });
         badHabit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.onModeSelected(categoryName);
+                mCallback.onModeSelected(categoryName, "good");
             }
         });
         showAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.onModeSelected(categoryName);
+                mCallback.onModeSelected(categoryName, "bad");
             }
         });
 
