@@ -46,7 +46,34 @@ public class ModeFragment extends Fragment {
         TextView learnCat = (TextView) rootView.findViewById(R.id.textView2);
         learnCat.setText(categoryName);
 
+        TextView goodHabit = (TextView) rootView.findViewById(R.id.textView2);
+        goodHabit.setText(categoryName);
+
+        TextView badHabit = (TextView) rootView.findViewById(R.id.textView2);
+        badHabit.setText(categoryName);
+
+        TextView showAll = (TextView) rootView.findViewById(R.id.textView2);
+        showAll.setText(categoryName);
+
         learn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCallback.onModeSelected(categoryName);
+            }
+        });
+        goodHabit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCallback.onModeSelected(categoryName);
+            }
+        });
+        badHabit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCallback.onModeSelected(categoryName);
+            }
+        });
+        showAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mCallback.onModeSelected(categoryName);
