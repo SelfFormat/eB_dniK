@@ -126,7 +126,7 @@ public class MainActivity
     @Override
     public void onSubCategorySelected(String name) {
         Bundle args = new Bundle();
-        args.putString(ListArticlesFragment.PASSED_VALUE, name);
+        args.putString(ListArticlesFragment.CATEGORYNAME_VALUE, name);
         modeFragment.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, modeFragment);

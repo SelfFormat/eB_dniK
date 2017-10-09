@@ -27,7 +27,9 @@ public class ListArticlesFragment extends Fragment {
     private ListView listView;
     OnArticleSelectedListener mCallback;
     View rootView;
-    static String PASSED_VALUE;
+    static String CATEGORYNAME_VALUE;
+    static String TYPE_VALUE;
+
 
     public ListArticlesFragment() {
         // Required empty public constructor
@@ -50,8 +52,13 @@ public class ListArticlesFragment extends Fragment {
 
         Bundle bundle = getArguments();
 
-        String categoryName = bundle.getString(PASSED_VALUE);
+
+//        TODO: Rename CATEGORYNAME_VALUE to CATEGORYNAME_VALUE
+        String categoryName = bundle.getString(CATEGORYNAME_VALUE);
         String categoryID = ((MainActivity)getActivity()).getCategoryIDByName(categoryName);
+
+//        TODO: Content based on type in database
+//        String type = bundle.getString(NAME_VALUE);
 
 
         listView = (ListView) rootView.findViewById(R.id.listVi);

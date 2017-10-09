@@ -18,6 +18,7 @@ public class ModeFragment extends Fragment {
     onModeSelectedListener mCallback;
     View rootView;
     static String PASSED_VALUE;
+    static String MODE_VALUE;
 
     public ModeFragment() {
         // Required empty public constructor
