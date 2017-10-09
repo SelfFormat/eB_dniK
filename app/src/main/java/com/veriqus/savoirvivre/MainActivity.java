@@ -244,6 +244,11 @@ public class MainActivity
         return list;
     }
 
+    public List<String> getArticleList(String row, String title_or_content, String type) {
+        List<String> list = databaseAccess.getQuotes(row, title_or_content, type);
+        return list;
+    }
+
 
     public List<String> getSaved(String title_or_content) {
         List<String> list = databaseAccess.getSavedArticles(title_or_content);

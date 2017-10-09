@@ -68,6 +68,20 @@ public class DatabaseAccess {
         return list;
     }
 
+    //gets list of all elements in selected row based on type ("good" or "bad" habits)
+    public List<String> getQuotes(String row, String title_or_content, String goodOrBad) {
+
+        List<String> list = new ArrayList<>();
+        Cursor cursor = database.rawQuery("SELECT " + title_or_content + "_" + getLang() + " FROM entry WHERE category = \"" + row + "\" AND type = \"" + goodOrBad + "\"", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            list.add(cursor.getString(0));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return list;
+    }
+
     //return list of saved articles
     public List<String> getSavedArticles(String title_or_content) {
 

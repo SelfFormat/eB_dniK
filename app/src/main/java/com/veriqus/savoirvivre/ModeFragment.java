@@ -62,13 +62,13 @@ public class ModeFragment extends Fragment {
         goodHabit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.onModeSelected(categoryName, "bad");
+                mCallback.onModeSelected(categoryName, "good");
             }
         });
         badHabit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.onModeSelected(categoryName, "good");
+                mCallback.onModeSelected(categoryName, "bad");
             }
         });
         showAll.setOnClickListener(new View.OnClickListener() {

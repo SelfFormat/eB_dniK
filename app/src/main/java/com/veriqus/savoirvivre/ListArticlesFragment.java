@@ -61,11 +61,12 @@ public class ListArticlesFragment extends Fragment {
 
         String categoryID = ((MainActivity)getActivity()).getCategoryIDByName(categoryName);
 
+//        TODO: Add dependencies if type is NULL (show all)
 
         listView = (ListView) rootView.findViewById(R.id.listVi);
-        final List<String> quotesTitles = ((MainActivity)getActivity()).getArticleList(categoryID, "title");
+        final List<String> quotesTitles = ((MainActivity)getActivity()).getArticleList(categoryID, "title", type);
         Log.i("CatID", categoryID);
-        final List<String> quotesContents = ((MainActivity)getActivity()).getArticleList(categoryID, "content");
+        final List<String> quotesContents = ((MainActivity)getActivity()).getArticleList(categoryID, "content", type);
 
 
 
