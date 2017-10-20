@@ -35,6 +35,7 @@ public class MainActivity
     ArticleFragment articleFragment = new ArticleFragment();
     ListArticlesFragment listArticlesFragment = new ListArticlesFragment();
     ModeFragment modeFragment = new ModeFragment();
+    //ArticleFromModeFragment articleFromModeFragment = new ArticleFromModeFragment();
 
     boolean noMoreIntro = false;
 
@@ -151,17 +152,34 @@ public class MainActivity
         transaction.commit();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+//
+//    @Override
+//    public void onModeSelected(String name) {
+//        Bundle args = new Bundle();
+//        args.putString(ModeFragment.PASSED_VALUE, name);
+//        listArticlesFragment.setArguments(args);
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        transaction.replace(R.id.fragment_container, listArticlesFragment);
+//        transaction.addToBackStack("subCategory");
+//        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//        setAppBarName(name);
+//        transaction.commit();
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//    }
 
+    // if article cardview selected in mode
     @Override
-    public void onModeSelected(String name) {
+    public void onModeSelected(String name, boolean bool) {
+        //new fragment stop error: fragment already active
+        ArticleFromModeFragment newFragment = new ArticleFromModeFragment();
         Bundle args = new Bundle();
         args.putString(ModeFragment.PASSED_VALUE, name);
-        listArticlesFragment.setArguments(args);
+        newFragment.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, listArticlesFragment);
-        transaction.addToBackStack("subCategory");
+        transaction.replace(R.id.fragment_container, newFragment);
+        transaction.addToBackStack("article");
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        setAppBarName(name);
+        // Commit the transaction
         transaction.commit();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

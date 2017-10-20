@@ -53,8 +53,6 @@ public class ListArticlesFragment extends Fragment {
 
         String categoryName = bundle.getString(CATEGORYNAME_VALUE);
         String type = bundle.getString("TYPE_VALUE");
-
-
         String categoryID = ((MainActivity)getActivity()).getCategoryIDByName(categoryName);
 
 //        TODO: Add dependencies if type is NULL (show all)

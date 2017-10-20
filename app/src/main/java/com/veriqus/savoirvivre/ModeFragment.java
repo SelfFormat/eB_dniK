@@ -26,10 +26,13 @@ public class ModeFragment extends Fragment {
 
     // Container Activity must implement this interface
     public interface onModeSelectedListener {
-        public void onModeSelected(String name, String mode);
-        public void onModeSelected(String name);
+        public void onModeSelected(String categoryName, String mode);
+        public void onModeSelected(String categoryName, boolean article);
     }
 
+    public interface OnArticleSelectedListener {
+        public void onArticleSelected(String categoryName);
+    }
 
 
     @Override
@@ -57,7 +60,7 @@ public class ModeFragment extends Fragment {
         learn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.onModeSelected(categoryName, "good");
+                mCallback.onModeSelected(categoryName, true);
             }
         });
         goodHabit.setOnClickListener(new View.OnClickListener() {

@@ -48,6 +48,7 @@ public class ArticleFragment extends Fragment {
         int dip20 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, r.getDisplayMetrics());
 
 
+
         Button goodButton = (Button) rootView.findViewById(R.id.goodButton);
         goodButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,6 +101,9 @@ public class ArticleFragment extends Fragment {
         return BitmapFactory.decodeByteArray(image, 0, image.length);
     }
 
+
+
+    //Heart button option
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.article_actions, menu);
