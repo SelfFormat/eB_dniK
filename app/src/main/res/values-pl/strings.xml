@@ -61,4 +61,7 @@
     <string name="repetiton">Wymaga powtórki</string>
     <string name="startLearning">Rozpocznij naukę</string>
     <string name="showAll">Pokaż wszystko</string>
+    <string name="subCat5_8_swimmingpool">Basen</string>
+    <string name="subCat7_1_punctuation">Interpunkcja</string>
+    <string name="category_7">Język</string>
 </resources>

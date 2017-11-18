@@ -8,7 +8,7 @@
     <string name="random">Random tip</string>
     <string name="saved_articles">My List</string>
     <string name="no_article">There\'s no article yet</string>
-    <string name="no_saved_article">You don\'t have any saved articles :(\n\nGo, and explore! </string>
+    <string name="no_saved_article">You don\'t have any saved articles :(\n\nGo, and explore,\n\Be Kind </string>
     <string name="credits" translatable="false">Credits</string>
     <string name="contact">Contact with us!</string>
     <string name="suggestions">Suggestions</string>
@@ -80,5 +80,8 @@
     <string name="subCat6_4_others">Others</string>
     <string name="startLearning">Start Learning</string>
     <string name="showAll">Show All</string>
+    <string name="subCat5_8_swimmingpool">Swimming pool</string>
+    <string name="subCat7_1_punctuation">Punctuation</string>
+    <string name="category_7">Language</string>
 
 </resources>

@@ -33,6 +33,7 @@ public class MainActivity
     SavedArticlesFragment savedArticlesFragment = new SavedArticlesFragment();
     TipFragment tipFragment = new TipFragment();
     ArticleFragment articleFragment = new ArticleFragment();
+    LearningFragment learningFragment = new LearningFragment();
     ListArticlesFragment listArticlesFragment = new ListArticlesFragment();
     ModeFragment modeFragment = new ModeFragment();
     //ArticleFromModeFragment articleFromModeFragment = new ArticleFromModeFragment();
@@ -48,6 +49,10 @@ public class MainActivity
                 case R.id.action_home:
                     getSupportFragmentManager().popBackStackImmediate("subCategory", POP_BACK_STACK_INCLUSIVE);
                     replaceFragment(firstFragment,getResources().getString(R.string.app_name));
+                    return true;
+                case R.id.action_learning:
+                    getSupportFragmentManager().popBackStackImmediate(0, POP_BACK_STACK_INCLUSIVE);
+                    replaceFragment(learningFragment, getResources().getString(R.string.learning));
                     return true;
                 case R.id.action_tip:
                     //this if avoid error during selecting visible fragment another time
