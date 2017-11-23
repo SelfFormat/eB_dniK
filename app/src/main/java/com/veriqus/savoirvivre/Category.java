@@ -14,8 +14,6 @@ public class Category {
     private List<Category> subCategories;
     private int drawable;
 
-
-
     public Category(String id, String name, List<Category> subCategories) {
         this.id = id;
         this.name = name;

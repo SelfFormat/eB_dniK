@@ -64,4 +64,6 @@
     <string name="subCat5_8_swimmingpool">Basen</string>
     <string name="subCat7_1_punctuation">Interpunkcja</string>
     <string name="category_7">Język</string>
+    <string name="select_category">Wybierz kategorię</string>
+
 </resources>

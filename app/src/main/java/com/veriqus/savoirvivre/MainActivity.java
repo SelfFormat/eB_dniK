@@ -1,7 +1,6 @@
 package com.veriqus.savoirvivre;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -25,7 +24,8 @@ public class MainActivity
         extends AppCompatActivity
         implements CategoryFragment.OnHeadlineSelectedListener,
                     ListArticlesFragment.OnArticleSelectedListener,
-                    ModeFragment.onModeSelectedListener{
+                    ModeFragment.onModeSelectedListener,
+                    LearningFragment.OnHeadlineSelectedListener {
 
     DatabaseAccess databaseAccess;
     CategoryFragment firstFragment = new CategoryFragment();
@@ -38,8 +38,7 @@ public class MainActivity
     ModeFragment modeFragment = new ModeFragment();
     //ArticleFromModeFragment articleFromModeFragment = new ArticleFromModeFragment();
 
-    boolean noMoreIntro = false;
-
+    boolean noMoreIntro = true;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -83,14 +82,7 @@ public class MainActivity
 
         //Checking if it is first run of program or not. If yes, it show Welcome Activity
         SharedPreferences settingsIntro = getSharedPreferences(WelcomeActivity.NO_MORE_INTRO, 0);
-        noMoreIntro = settingsIntro.getBoolean("noMoreIntro", false);
-
-        if(!noMoreIntro)
-        {
-            Intent toTheWelcome = new Intent(this, WelcomeActivity.class);
-            startActivity(toTheWelcome);
-            finish();
-        }
+        noMoreIntro = settingsIntro.getBoolean("noMoreIntro", true);
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -130,13 +122,14 @@ public class MainActivity
     }
 
     @Override
-    public void onSubCategorySelected(String name) {
+    public void onSubCategorySelected(String name, String mode) {
         Bundle args = new Bundle();
         args.putString(ListArticlesFragment.CATEGORYNAME_VALUE, name);
-        modeFragment.setArguments(args);
+        args.putString("TYPE_VALUE", mode);
+        listArticlesFragment.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, modeFragment);
-        transaction.addToBackStack("subCategory");
+        transaction.replace(R.id.fragment_container, listArticlesFragment);
+        transaction.addToBackStack("listArticles");
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         setAppBarName(name);
         transaction.commit();

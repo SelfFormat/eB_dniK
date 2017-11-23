@@ -25,6 +25,7 @@
     <string name="bad">Bad habit</string>
     <string name="gotit">Ok, got it!</string>
     <string name="repetiton">Come back later</string>
+    <string name="select_category">Select category</string>
 
     <!-- MAIN Category -->
     <string name="category_1">Media</string>

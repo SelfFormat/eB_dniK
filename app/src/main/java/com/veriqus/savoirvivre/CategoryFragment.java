@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.util.TypedValue;
@@ -25,10 +26,12 @@ public class CategoryFragment extends Fragment {
 
     OnHeadlineSelectedListener mCallback;
     View rootView;
+    public static final String NO_MORE_DEMO = "noMoreDemo";
+
 
     // Container Activity must implement this interface
     public interface OnHeadlineSelectedListener {
-        public void onSubCategorySelected(String name);
+        public void onSubCategorySelected(String name, String mode);
 
     }
 
@@ -42,6 +45,23 @@ public class CategoryFragment extends Fragment {
 
         Resources r = getResources();
 
+        View tutorialView = rootView.findViewById(R.id.tutorialView);
+        boolean tutorialShown = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(NO_MORE_DEMO, false);
+        if (!tutorialShown) {
+            tutorialView.setVisibility(View.VISIBLE);
+        } else {
+            tutorialView.setVisibility(View.GONE);
+        }
+
+        tutorialView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.setVisibility(View.GONE);
+                PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putBoolean(NO_MORE_DEMO, true).commit();
+            }
+        });
+
+
         int dip1 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, r.getDisplayMetrics());
         int px20 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 20, r.getDisplayMetrics());
         int px24 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 24, r.getDisplayMetrics());
@@ -54,23 +74,24 @@ public class CategoryFragment extends Fragment {
         List<Category> subCat_1 = new ArrayList<>();
         subCat_1.add(0, new Category("1", getContext().getString(R.string.subCat1_1_phone), R.drawable.icon_phone));
         subCat_1.add(1, new Category("2", getContext().getString(R.string.subCat1_2_mail), R.drawable.icon_email));
-        subCat_1.add(2, new Category("3", getContext().getString(R.string.subCat1_3_socialmedia), R.drawable.icon_social_media));
+        subCat_1.add(2, new Category("3", getContext().getString(R.string.subCat1_3_socialmedia), R.drawable.icon_socialmedia));
 
         List<Category> subCat_2 = new ArrayList<>();
         subCat_2.add(0, new Category("1", getContext().getString(R.string.subCat2_1_restaurant), R.drawable.icon_restaurant));
-        subCat_2.add(1, new Category("2", getContext().getString(R.string.subCat2_2_home), R.drawable.icon_athome));
-        subCat_2.add(2, new Category("3", getContext().getString(R.string.subCat2_3_servingalcohol), R.drawable.icon_alcohol));
+        subCat_2.add(1, new Category("2", getContext().getString(R.string.subCat2_2_home), R.drawable.icon_home));
+        subCat_2.add(2, new Category("3", getContext().getString(R.string.subCat2_3_servingalcohol), R.drawable.icon_servingalcohol));
 
         List<Category> subCat_3 = new ArrayList<>();
-        subCat_3.add(0, new Category("1", getContext().getString(R.string.subCat3_1_appearance), R.drawable.icon_look));
+        subCat_3.add(0, new Category("1", getContext().getString(R.string.subCat3_1_appearance), R.drawable.icon_appearance));
         subCat_3.add(1, new Category("2", getContext().getString(R.string.subCat3_2_gifts), R.drawable.icon_gifts));
         subCat_3.add(2, new Category("3", getContext().getString(R.string.subCat3_3_greetings), R.drawable.icon_greetings));
-        subCat_3.add(3, new Category("4", getContext().getString(R.string.subCat3_4_guests), R.drawable.icon_company));
-        subCat_3.add(4, new Category("5", getContext().getString(R.string.subCat3_5_dance), R.drawable.icon_dancing));
+        subCat_3.add(3, new Category("4", getContext().getString(R.string.subCat3_4_guests), R.drawable.icon_guests));
+        subCat_3.add(4, new Category("5", getContext().getString(R.string.subCat3_5_dance), R.drawable.icon_dance));
         subCat_3.add(5, new Category("6", getContext().getString(R.string.subCat3_6_date), R.drawable.icon_date));
-        subCat_3.add(6, new Category("7", getContext().getString(R.string.subCat3_7_job), R.drawable.icon_work_monster));
-        subCat_3.add(7, new Category("8", getContext().getString(R.string.subCat3_8_disabled), R.drawable.icon_disability));
-        subCat_3.add(8, new Category("9", getContext().getString(R.string.subCat3_10_conversation), R.drawable.oval));
+        subCat_3.add(6, new Category("7", getContext().getString(R.string.subCat3_7_job), R.drawable.icon_job
+        ));
+        subCat_3.add(7, new Category("8", getContext().getString(R.string.subCat3_8_disabled), R.drawable.icon_disabled));
+        subCat_3.add(8, new Category("9", getContext().getString(R.string.subCat3_10_conversation), R.drawable.icon_conversation));
         subCat_3.add(9, new Category("10", getContext().getString(R.string.subCat3_9_cigarettes), R.drawable.icon_cigarettes));
 
         List<Category> subCat_4 = new ArrayList<>();
@@ -78,24 +99,25 @@ public class CategoryFragment extends Fragment {
         subCat_4.add(1, new Category("2", getContext().getString(R.string.subCat4_3_funeral), R.drawable.icon_funeral));
 
         List<Category> subCat_5 = new ArrayList<>();
-        subCat_5.add(0, new Category("1", getContext().getString(R.string.subCat5_1_religion), R.drawable.oval));
-        subCat_5.add(1, new Category("2", getContext().getString(R.string.subCat5_2_shop), R.drawable.oval));
-        subCat_5.add(2, new Category("3", getContext().getString(R.string.subCat5_3_gym), R.drawable.oval));
+        subCat_5.add(0, new Category("1",
+                getContext().getString(R.string.subCat5_1_religion), R.drawable.icon_religion));
+        subCat_5.add(1, new Category("2", getContext().getString(R.string.subCat5_2_shop), R.drawable.icon_shopping));
+        subCat_5.add(2, new Category("3", getContext().getString(R.string.subCat5_3_gym), R.drawable.icon_gym));
         subCat_5.add(3, new Category("4", getContext().getString(R.string.subCat5_4_sauna), R.drawable.icon_sauna));
-        subCat_5.add(4, new Category("5", getContext().getString(R.string.subCat5_5_events), R.drawable.icon_artevents));
-        subCat_5.add(5, new Category("6", getContext().getString(R.string.subCat5_6_publictransport), R.drawable.icon_bus));
-        subCat_5.add(6, new Category("7", getContext().getString(R.string.subCat5_7_journey), R.drawable.oval));
-        subCat_5.add(7, new Category("8", getContext().getString(R.string.subCat5_8_hospital), R.drawable.oval));
+        subCat_5.add(4, new Category("5", getContext().getString(R.string.subCat5_5_events), R.drawable.icon_events));
+        subCat_5.add(5, new Category("6", getContext().getString(R.string.subCat5_6_publictransport), R.drawable.icon_publictransport));
+        subCat_5.add(6, new Category("7", getContext().getString(R.string.subCat5_7_journey), R.drawable.icon_journey));
+        subCat_5.add(7, new Category("8", getContext().getString(R.string.subCat5_8_hospital), R.drawable.icon_hospital));
         subCat_5.add(4, new Category("9", getContext().getString(R.string.subCat5_8_swimmingpool), R.drawable.icon_swimmingpool));
 
         List<Category> subCat_6 = new ArrayList<>();
-        subCat_6.add(0, new Category("1", getContext().getString(R.string.subCat6_1_dictionary), R.drawable.icon_glossary));
+        subCat_6.add(0, new Category("1", getContext().getString(R.string.subCat6_1_dictionary), R.drawable.icon_dictionary));
         subCat_6.add(1, new Category("2", getContext().getString(R.string.subCat6_2_animals), R.drawable.icon_animals));
-        subCat_6.add(2, new Category("3", getContext().getString(R.string.subCat6_3_children), R.drawable.icon_kids));
-        subCat_6.add(3, new Category("4", getContext().getString(R.string.subCat6_4_others), R.drawable.oval));
+        subCat_6.add(2, new Category("3", getContext().getString(R.string.subCat6_3_children), R.drawable.icon_children));
+        subCat_6.add(3, new Category("4", getContext().getString(R.string.subCat6_4_others), R.drawable.icon_others));
 
         List<Category> subCat_7 = new ArrayList<>();
-        subCat_7.add(0, new Category("1", getContext().getString(R.string.subCat7_1_punctuation), R.drawable.oval));
+        subCat_7.add(0, new Category("1", getContext().getString(R.string.subCat7_1_punctuation), R.drawable.icon_punctuation));
 
         List<Category> categories = new ArrayList<>();
         categories.add(0, new Category("1", getContext().getString(R.string.category_1), subCat_1));
@@ -110,7 +132,7 @@ public class CategoryFragment extends Fragment {
 
             TextView categoryText = new TextView(getContext());
             categoryText.setText(categories.get(i).getName());
-            categoryText.setTextSize(px24);
+            categoryText.setTextSize(px20);
             categoryText.setTextColor(Color.BLACK);
             categoryText.setTypeface(null, Typeface.NORMAL);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -145,7 +167,7 @@ public class CategoryFragment extends Fragment {
                 cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mCallback.onSubCategorySelected(subCategoryName);
+                        mCallback.onSubCategorySelected(subCategoryName, "all");
                     }
                 });
                 cardView.addView(subCategoryImage, paramsImg);
