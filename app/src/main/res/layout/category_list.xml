@@ -35,17 +35,28 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true">
+        android:layout_centerVertical="true"
+        android:id="@+id/selectImageCategory"
+        android:visibility="gone">
 
         <ImageView
-            android:id="@+id/selectImageCategory"
-            android:layout_width="match_parent"
+            android:id="@+id/imageCategorySwap"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/icon_email"
-            android:visibility="visible" />
+            android:src="@drawable/icon_learning"/>
+
     </android.support.v7.widget.CardView>
+
+    <ImageView
+        android:id="@+id/imagLearning"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/icon_learning"
+        android:visibility="visible" />
 
 
 </RelativeLayout>

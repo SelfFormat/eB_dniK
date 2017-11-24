@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="category_names">
+        <item>Category list</item>
         <item>At restaurant</item>
         <item>Hospital</item>
     </string-array>

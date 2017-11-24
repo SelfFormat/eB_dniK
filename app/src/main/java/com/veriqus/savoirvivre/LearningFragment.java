@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.TypedValue;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,15 +36,6 @@ public class LearningFragment extends Fragment {
         rootView = inflater.inflate(R.layout.category_list, container, false);
 
         Resources r = getResources();
-
-        int dip1 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, r.getDisplayMetrics());
-        int px20 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 20, r.getDisplayMetrics());
-        int px24 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 24, r.getDisplayMetrics());
-        int dip10 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, r.getDisplayMetrics());
-        int dip15 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, r.getDisplayMetrics());
-        int dip60 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, r.getDisplayMetrics());
-        int dip100 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, r.getDisplayMetrics());
-        int dip125 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 125, r.getDisplayMetrics());
 
         List<Category> subCat_1 = new ArrayList<>();
         subCat_1.add(0, new Category("1", getContext().getString(R.string.subCat1_1_phone), R.drawable.icon_phone));
@@ -103,18 +94,25 @@ public class LearningFragment extends Fragment {
 
 
         Spinner spinner = (Spinner) rootView.findViewById(R.id.categoryListSpinner);
-        final ImageView showCategoryImage = (ImageView) rootView.findViewById(R.id.selectImageCategory);
-
+        final ImageView categoryImage = (ImageView) rootView.findViewById(R.id.imageCategorySwap);
+        final CardView showCategoryCardView = (CardView) rootView.findViewById(R.id.selectImageCategory);
+        final ImageView learningImage = (ImageView) rootView.findViewById(R.id.imagLearning);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 switch (position) {
-                    case 0: showCategoryImage.setImageDrawable(getResources().getDrawable(R.drawable.icon_restaurant));
+                    case 0: showCategoryCardView.setVisibility(View.INVISIBLE);
+                            learningImage.setVisibility(View.VISIBLE);
                             break;
-                    case 1: showCategoryImage.setImageDrawable(getResources().getDrawable(R.drawable.icon_hospital));
+                    case 1: categoryImage.setImageDrawable(getResources().getDrawable(R.drawable.icon_restaurant));
+                            showCategoryCardView.setVisibility(View.VISIBLE);
+                            learningImage.setVisibility(View.INVISIBLE);
                             break;
-
+                    case 2: categoryImage.setImageDrawable(getResources().getDrawable(R.drawable.icon_hospital));
+                            showCategoryCardView.setVisibility(View.VISIBLE);
+                            learningImage.setVisibility(View.INVISIBLE);
+                            break;
                 }
             }
 
