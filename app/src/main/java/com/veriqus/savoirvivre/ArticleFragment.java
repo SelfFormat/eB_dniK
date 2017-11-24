@@ -4,15 +4,11 @@ package com.veriqus.savoirvivre;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
+
+import static com.veriqus.savoirvivre.ListArticlesFragment.CATEGORYNAME_VALUE;
 
 
 public class ArticleFragment extends Fragment {
@@ -33,6 +31,9 @@ public class ArticleFragment extends Fragment {
     View rootView;
     static String ARTICLE_NAME;
     String articleName;
+    HashMap<String, String> savedList;
+    boolean isSaved;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,13 +42,17 @@ public class ArticleFragment extends Fragment {
         setHasOptionsMenu(true);
 
         Bundle bundle = getArguments();
+        String categoryName = bundle.getString(CATEGORYNAME_VALUE);
         articleName = bundle.getString(ARTICLE_NAME);
+
+        String type = bundle.getString("TYPE_VALUE");
+        String categoryID = ((MainActivity)getActivity()).getCategoryIDByName(categoryName);
+
+
 
         //pixel to dp conversion
         Resources r = getResources();
         int dip20 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, r.getDisplayMetrics());
-
-
 
         Button goodButton = (Button) rootView.findViewById(R.id.goodButton);
         goodButton.setOnClickListener(new View.OnClickListener() {
@@ -57,21 +62,17 @@ public class ArticleFragment extends Fragment {
             }
         });
 
-        TextView articleTitleText = (TextView) rootView.findViewById(R.id.articleTitle);
-        //Article won't have name anymore
-        //articleTitleText.setText(articleName);
-
         TextView articleContentText = (TextView) rootView.findViewById(R.id.articleContent);
 
-        String articleType = ((MainActivity) this.getContext()).getArticleType(articleName);
-
-        if (articleType.equals("good")) {
-            articleTitleText.setBackgroundColor(Color.parseColor("#009688"));
-            articleTitleText.setText(getContext().getText(R.string.good));
-        } else if (articleType.equals("bad")) {
-            articleTitleText.setBackgroundColor(Color.parseColor("#A54E4E"));
-            articleTitleText.setText(getContext().getText(R.string.bad));
-        }
+//        String articleType = ((MainActivity) this.getContext()).getArticleType(articleName);
+//
+//        if (articleType.equals("good")) {
+//            articleTitleText.setBackgroundColor(Color.parseColor("#009688"));
+//            articleTitleText.setText(getContext().getText(R.string.good));
+//        } else if (articleType.equals("bad")) {
+//            articleTitleText.setBackgroundColor(Color.parseColor("#A54E4E"));
+//            articleTitleText.setText(getContext().getText(R.string.bad));
+//        }
 
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
@@ -93,6 +94,51 @@ public class ArticleFragment extends Fragment {
         }
 
 
+        final ImageView saveIcon = (ImageView) rootView.findViewById(R.id.saveArticleButton);
+        savedList = ((MainActivity)getActivity()).loadMap();
+        isSaved = savedList.containsKey(((MainActivity)getActivity()).getArticleID(articleName));
+
+        if (!isSaved) {
+            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_heart));
+        } else {
+            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_heart_saved));
+        }
+
+
+        saveIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!isSaved) {
+                    String ID = ((MainActivity) getActivity()).getArticleID(articleName);
+                    savedList.put(ID, ID);
+                    ((MainActivity) getActivity()).saveMap(savedList);
+                    saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_heart_saved));
+
+
+//
+//                    SharedPreferences.Editor editor = getContext().getSharedPreferences(SAVED, 0).edit();
+//                    for (Map.Entry<String, String> entry : savedList.entrySet()) {
+//                        editor.putString(entry.getKey(), entry.getValue());
+//                    }
+//
+//                    ((MainActivity)getActivity()).save(articleName, 1);
+                    //Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+                } else {
+                    saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_heart));
+                    String ID = ((MainActivity) getActivity()).getArticleID(articleName);
+                    savedList.remove(ID);
+                    ((MainActivity) getActivity()).saveMap(savedList);
+
+
+//                    ((MainActivity)getActivity()).save(articleName, 0);
+                    //Toast.makeText(getContext(), "Removed", Toast.LENGTH_SHORT).show();
+                }
+                isSaved = savedList.containsKey(((MainActivity)getActivity()).getArticleID(articleName));
+            }
+        });
+
+
 
         return rootView;
     }
@@ -103,51 +149,58 @@ public class ArticleFragment extends Fragment {
 
 
 
-    //Heart button option
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.article_actions, menu);
-        super.onCreateOptionsMenu(menu,inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            case R.id.action_favorite:
-                HashMap<String, String> savedList = ((MainActivity)getActivity()).loadMap();
-
-                boolean isSaved = savedList.containsKey(((MainActivity)getActivity()).getArticleID(articleName));
-                if(!isSaved) {
-                    String ID =  ((MainActivity)getActivity()).getArticleID(articleName);
-                    savedList.put(ID, ID);
-                    ((MainActivity)getActivity()).saveMap(savedList);
+//    //Heart button option
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        savedList = ((MainActivity)getActivity()).loadMap();
+//        isSaved = savedList.containsKey(((MainActivity)getActivity()).getArticleID(articleName));
+//        if(isSaved){
+//            inflater.inflate(R.menu.article_actions_alreadysaved, menu);
+//        }
+//        else{
+//            inflater.inflate(R.menu.article_actions, menu);
+//        }
+//        super.onCreateOptionsMenu(menu,inflater);
 //
-//                    SharedPreferences.Editor editor = getContext().getSharedPreferences(SAVED, 0).edit();
-//                    for (Map.Entry<String, String> entry : savedList.entrySet()) {
-//                        editor.putString(entry.getKey(), entry.getValue());
-//                    }
+//    }
 //
-//                    ((MainActivity)getActivity()).save(articleName, 1);
-                    Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    String ID =  ((MainActivity)getActivity()).getArticleID(articleName);
-                    savedList.remove(ID);
-                    ((MainActivity)getActivity()).saveMap(savedList);
-
-
-//                    ((MainActivity)getActivity()).save(articleName, 0);
-                    Toast.makeText(getContext(), "Removed", Toast.LENGTH_SHORT).show();
-                }
-
-                return true;
-
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
-
-        }
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//
+//            case R.id.action_favorite:
+//
+//                if(!isSaved) {
+//                    String ID =  ((MainActivity)getActivity()).getArticleID(articleName);
+//                    savedList.put(ID, ID);
+//                    ((MainActivity)getActivity()).saveMap(savedList);
+//
+////
+////                    SharedPreferences.Editor editor = getContext().getSharedPreferences(SAVED, 0).edit();
+////                    for (Map.Entry<String, String> entry : savedList.entrySet()) {
+////                        editor.putString(entry.getKey(), entry.getValue());
+////                    }
+////
+////                    ((MainActivity)getActivity()).save(articleName, 1);
+//                    Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+//                }
+//                else {
+//                    String ID =  ((MainActivity)getActivity()).getArticleID(articleName);
+//                    savedList.remove(ID);
+//                    ((MainActivity)getActivity()).saveMap(savedList);
+//
+//
+////                    ((MainActivity)getActivity()).save(articleName, 0);
+//                    Toast.makeText(getContext(), "Removed", Toast.LENGTH_SHORT).show();
+//                }
+//
+//                return true;
+//
+//            default:
+//                // If we got here, the user's action was not recognized.
+//                // Invoke the superclass to handle it.
+//                return super.onOptionsItemSelected(item);
+//
+//        }
+//    }
 }

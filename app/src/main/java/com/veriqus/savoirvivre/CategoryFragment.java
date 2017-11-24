@@ -41,6 +41,7 @@ public class CategoryFragment extends Fragment {
 
         rootView = inflater.inflate(R.layout.fragment_category, container, false);
 
+
         LinearLayout mainLinear = (LinearLayout) rootView.findViewById(R.id.mainCategory_LinView);
 
         Resources r = getResources();
@@ -48,18 +49,20 @@ public class CategoryFragment extends Fragment {
         View tutorialView = rootView.findViewById(R.id.tutorialView);
         boolean tutorialShown = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(NO_MORE_DEMO, false);
         if (!tutorialShown) {
+            ImageView imageView = (ImageView) rootView.findViewById(R.id.swipe);
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.icon_swipe));
             tutorialView.setVisibility(View.VISIBLE);
+            tutorialView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    v.setVisibility(View.GONE);
+                    PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putBoolean(NO_MORE_DEMO, true).apply();
+                }
+            });
+
         } else {
             tutorialView.setVisibility(View.GONE);
         }
-
-        tutorialView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setVisibility(View.GONE);
-                PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putBoolean(NO_MORE_DEMO, true).commit();
-            }
-        });
 
 
         int dip1 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, r.getDisplayMetrics());

@@ -1,7 +1,6 @@
 package com.veriqus.savoirvivre;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,22 +28,22 @@ public class ArticleListAdapter extends ArrayAdapter<ItemList> {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.single_list_item, parent, false);
             }
             // Lookup view for data population
-            //TextView title = (TextView) convertView.findViewById(R.id.title_text_article_list);
+            TextView title = (TextView) convertView.findViewById(R.id.title_text_article_list);
             TextView content = (TextView) convertView.findViewById(R.id.content_text_article_list);
 
-            View strip = convertView.findViewById(R.id.strip);
+            //View strip = convertView.findViewById(R.id.strip);
 
             String articleType = ((MainActivity) this.getContext()).getArticleType(itemList.title);
 
-            if (articleType.equals("good")) {
-                strip.setBackgroundColor(Color.parseColor("#009688"));
-            } else if (articleType.equals("bad")) {
-                strip.setBackgroundColor(Color.parseColor("#A54E4E"));
-            }
+//            if (articleType.equals("good")) {
+//                strip.setBackgroundColor(Color.parseColor("#009688"));
+//            } else if (articleType.equals("bad")) {
+//                strip.setBackgroundColor(Color.parseColor("#A54E4E"));
+//            }
 
 
             // Populate the data into the template view using the data object
-            //title.setText(itemList.title);
+            title.setText(itemList.title);
             content.setText(itemList.content);
             // Return the completed view to render on screen
             return convertView;
