@@ -94,9 +94,9 @@ public class TipFragment extends Fragment {
 
                 isSaved = savedList.containsKey(((MainActivity)getActivity()).getArticleID(articleName));
                 if (!isSaved) {
-                    saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_heart));
+                    saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_black_36dp));
                 } else {
-                    saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_heart_saved));
+                    saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_black_36dp));
                 }
 
 
@@ -140,9 +140,9 @@ public class TipFragment extends Fragment {
 
 
         if (!isSaved) {
-            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_heart));
+            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_black_36dp));
         } else {
-            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_heart_saved));
+            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_black_36dp));
         }
 
 
@@ -154,7 +154,7 @@ public class TipFragment extends Fragment {
                     String ID = ((MainActivity) getActivity()).getArticleID(articleName);
                     savedList.put(ID, ID);
                     ((MainActivity) getActivity()).saveMap(savedList);
-                    saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_heart_saved));
+                    saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_black_36dp));
 
 
 //
@@ -166,7 +166,7 @@ public class TipFragment extends Fragment {
 //                    ((MainActivity)getActivity()).save(articleName, 1);
                     //Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
                 } else {
-                    saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_heart));
+                    saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_black_36dp));
                     String ID = ((MainActivity) getActivity()).getArticleID(articleName);
                     savedList.remove(ID);
                     ((MainActivity) getActivity()).saveMap(savedList);

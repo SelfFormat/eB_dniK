@@ -63,7 +63,8 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/rel_contact">
+                        android:id="@+id/rel_contact"
+                        android:foreground="?android:attr/selectableItemBackground">
 
                         <ImageView
                             android:id="@+id/envelope"
@@ -94,7 +95,8 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/rel_suggestions">
+                        android:id="@+id/rel_suggestions"
+                        android:foreground="?android:attr/selectableItemBackground">
 
                         <ImageView
                             android:id="@+id/pencil"
@@ -125,7 +127,8 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/rel_developer">
+                        android:id="@+id/rel_developer"
+                        android:foreground="?android:attr/selectableItemBackground">
 
                         <ImageView
                             android:id="@+id/devicon"
@@ -156,7 +159,8 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/rel_fb">
+                        android:id="@+id/rel_fb"
+                        android:foreground="?android:attr/selectableItemBackground">
 
                         <ImageView
                             android:id="@+id/facebook_icon"
@@ -198,7 +202,8 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/rel_otherapps">
+                        android:id="@+id/rel_otherapps"
+                        android:foreground="?android:attr/selectableItemBackground">
 
                         <ImageView
                             android:id="@+id/otherappicon"
@@ -229,7 +234,8 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/rel_share">
+                        android:id="@+id/rel_share"
+                        android:foreground="?android:attr/selectableItemBackground">
 
                         <ImageView
                             android:id="@+id/shareicon"
@@ -252,7 +258,6 @@
 
                     </RelativeLayout>
 
-
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
@@ -263,9 +268,13 @@
                 android:layout_margin="16dp">
 
                 <RelativeLayout
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/rel_credits">
+                    android:id="@+id/rel_credits"
+                    >
 
                     <ImageView
                         android:id="@+id/creditsicon"

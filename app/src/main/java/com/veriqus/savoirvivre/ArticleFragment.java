@@ -1,12 +1,14 @@
 package com.veriqus.savoirvivre;
 
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +33,7 @@ public class ArticleFragment extends Fragment {
     View rootView;
     static String ARTICLE_NAME;
     String articleName;
+    String articleContent;
     HashMap<String, String> savedList;
     boolean isSaved;
 
@@ -62,7 +65,7 @@ public class ArticleFragment extends Fragment {
             }
         });
 
-        TextView articleContentText = (TextView) rootView.findViewById(R.id.articleContent);
+        TextView articleContentTextView = (TextView) rootView.findViewById(R.id.articleContent);
 
 //        String articleType = ((MainActivity) this.getContext()).getArticleType(articleName);
 //
@@ -75,23 +78,29 @@ public class ArticleFragment extends Fragment {
 //        }
 
 
+
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            articleContentText.setText(Html.fromHtml(((MainActivity)getActivity()).getArticleContent(articleName),Html.FROM_HTML_MODE_LEGACY));
+            articleContent = Html.fromHtml(((MainActivity)getActivity()).getArticleContent(articleName),Html.FROM_HTML_MODE_LEGACY).toString();
         } else {
-            articleContentText.setText(Html.fromHtml(((MainActivity)getActivity()).getArticleContent(articleName)));
+            articleContent = Html.fromHtml(((MainActivity)getActivity()).getArticleContent(articleName)).toString();
         }
+
+        articleContentTextView.setText(articleContent);
 
         ImageView  imgPlace = (ImageView) rootView.findViewById(R.id.imgPlace);
 
         // Retrieve the selected image as byte[]
-        if (((MainActivity) getActivity()).getImageByte(articleName) != null) {
-            imgPlace.setPadding(0,0,0,dip20);
+        if (((MainActivity) getActivity()).getImageByte(articleName).length > 1) {
+            imgPlace.setPadding(dip20, dip20, dip20 ,dip20);
             byte[] data = ((MainActivity) getActivity()).getImageByte(articleName);
+            Log.i("Image:", "shown");
             // Convert to Bitmap
             Bitmap image = toBitmap(data);
             // Set to the imgPlace
             imgPlace.setImageBitmap(image);
+            imgPlace.setVisibility(View.VISIBLE);
         }
+
 
 
         final ImageView saveIcon = (ImageView) rootView.findViewById(R.id.saveArticleButton);
@@ -99,9 +108,9 @@ public class ArticleFragment extends Fragment {
         isSaved = savedList.containsKey(((MainActivity)getActivity()).getArticleID(articleName));
 
         if (!isSaved) {
-            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_heart));
+            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_black_36dp));
         } else {
-            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_heart_saved));
+            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_black_36dp));
         }
 
 
@@ -113,7 +122,7 @@ public class ArticleFragment extends Fragment {
                     String ID = ((MainActivity) getActivity()).getArticleID(articleName);
                     savedList.put(ID, ID);
                     ((MainActivity) getActivity()).saveMap(savedList);
-                    saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_heart_saved));
+                    saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_black_36dp));
 
 
 //
@@ -125,7 +134,7 @@ public class ArticleFragment extends Fragment {
 //                    ((MainActivity)getActivity()).save(articleName, 1);
                     //Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
                 } else {
-                    saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_heart));
+                    saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_black_36dp));
                     String ID = ((MainActivity) getActivity()).getArticleID(articleName);
                     savedList.remove(ID);
                     ((MainActivity) getActivity()).saveMap(savedList);
@@ -140,11 +149,32 @@ public class ArticleFragment extends Fragment {
 
 
 
+        final ImageView share = (ImageView) rootView.findViewById(R.id.shareArticleButton);
+
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareIntent(articleName, articleContent);
+
+            }
+        });
+
+
+
         return rootView;
     }
 
     public static Bitmap toBitmap(byte[] image) {
         return BitmapFactory.decodeByteArray(image, 0, image.length);
+    }
+
+
+    private void shareIntent(String title, String content){
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, title + "\n" + content);
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
     }
 
 
