@@ -15,7 +15,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private boolean noMoreIntro = false;
     SharedPreferences.Editor editorIntro;
 
-    private static int SPLASH_DISPLAY_LENGTH = 2750;
+    private static int SPLASH_DISPLAY_LENGTH = 550;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

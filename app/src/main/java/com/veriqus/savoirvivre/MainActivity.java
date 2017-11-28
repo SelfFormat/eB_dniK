@@ -99,6 +99,8 @@ public class MainActivity
         BottomNavigationViewEx navigation = (BottomNavigationViewEx) findViewById(R.id.navigation);
         navigation.setTextVisibility(false);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navigation.enableAnimation(false);
+        navigation.enableShiftingMode(false);
         navigation.enableItemShiftingMode(false);
 
         //ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);

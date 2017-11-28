@@ -80,7 +80,7 @@ public class SettingsFragment extends Fragment {
         });
 
 
-        TextView other = (TextView)rootView.findViewById(R.id.other);
+        View other = (View) rootView.findViewById(R.id.rel_otherapps);
         other.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,7 +98,7 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        TextView share = (TextView)rootView.findViewById(R.id.share);
+        View share = (View) rootView.findViewById(R.id.rel_share);
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,7 +119,7 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        TextView credits = (TextView)rootView.findViewById(R.id.credits);
+        View credits = (View) rootView.findViewById(R.id.rel_credits);
         credits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,5 +145,6 @@ public class SettingsFragment extends Fragment {
         return rootView;
 
     }
+
 
 }
