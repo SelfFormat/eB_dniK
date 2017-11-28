@@ -9,11 +9,12 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MotionEventCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import org.json.JSONObject;
 
@@ -53,10 +54,10 @@ public class MainActivity
                     getSupportFragmentManager().popBackStackImmediate("subCategory", POP_BACK_STACK_INCLUSIVE);
                     replaceFragment(firstFragment,getResources().getString(R.string.app_name));
                     return true;
-                case R.id.action_learning:
-                    getSupportFragmentManager().popBackStackImmediate(0, POP_BACK_STACK_INCLUSIVE);
-                    replaceFragment(learningFragment, getResources().getString(R.string.learning));
-                    return true;
+//                case R.id.action_learning:
+//                    getSupportFragmentManager().popBackStackImmediate(0, POP_BACK_STACK_INCLUSIVE);
+//                    replaceFragment(learningFragment, getResources().getString(R.string.learning));
+//                    return true;
                 case R.id.action_tip:
                     //this if avoid error during selecting visible fragment another time
                     if(!tipFragment.isVisible()) {
@@ -95,16 +96,19 @@ public class MainActivity
 
         //TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationViewEx navigation = (BottomNavigationViewEx) findViewById(R.id.navigation);
+        navigation.setTextVisibility(false);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navigation.enableItemShiftingMode(false);
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        //ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         // Create an adapter that knows which fragment should be shown on each page
-        TabAdapter adapter = new TabAdapter(this, getSupportFragmentManager());
+        //TabAdapter adapter = new TabAdapter(this, getSupportFragmentManager());
 
         // Set the adapter onto the view pager
-        viewPager.setAdapter(adapter);
+        //viewPager.setAdapter(adapter);
+        //navigation.setupWithViewPager(viewPager);
 
         //tabLayout.setupWithViewPager(viewPager);
 

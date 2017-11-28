@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import java.util.HashMap;
 
 import static com.veriqus.savoirvivre.ListArticlesFragment.CATEGORYNAME_VALUE;
@@ -66,6 +68,8 @@ public class ArticleFragment extends Fragment {
         });
 
         TextView articleContentTextView = (TextView) rootView.findViewById(R.id.articleContent);
+        TextView articleTitleText = (TextView) rootView.findViewById(R.id.articleTitle);
+        articleTitleText.setText(articleName);
 
 //        String articleType = ((MainActivity) this.getContext()).getArticleType(articleName);
 //
@@ -95,9 +99,15 @@ public class ArticleFragment extends Fragment {
             byte[] data = ((MainActivity) getActivity()).getImageByte(articleName);
             Log.i("Image:", "shown");
             // Convert to Bitmap
-            Bitmap image = toBitmap(data);
+
+            //Drawable image = new BitmapDrawable(getResources(),BitmapFactory.decodeByteArray(data, 0, data.length));
+            //Bitmap image = toBitmap(data);
             // Set to the imgPlace
-            imgPlace.setImageBitmap(image);
+
+            Glide.with(getActivity())
+                    .load(data).asBitmap()
+                    .into(imgPlace);
+            //imgPlace.setImageBitmap(image);
             imgPlace.setVisibility(View.VISIBLE);
         }
 

@@ -102,16 +102,15 @@ public class CategoryFragment extends Fragment {
         subCat_4.add(1, new Category("2", getContext().getString(R.string.subCat4_3_funeral), R.drawable.icon_funeral));
 
         List<Category> subCat_5 = new ArrayList<>();
-        subCat_5.add(0, new Category("1",
-                getContext().getString(R.string.subCat5_1_religion), R.drawable.icon_religion));
-        subCat_5.add(1, new Category("2", getContext().getString(R.string.subCat5_2_shop), R.drawable.icon_shopping));
-        subCat_5.add(2, new Category("3", getContext().getString(R.string.subCat5_3_gym), R.drawable.icon_gym));
-        subCat_5.add(3, new Category("4", getContext().getString(R.string.subCat5_4_sauna), R.drawable.icon_sauna));
-        subCat_5.add(4, new Category("5", getContext().getString(R.string.subCat5_5_events), R.drawable.icon_events));
-        subCat_5.add(5, new Category("6", getContext().getString(R.string.subCat5_6_publictransport), R.drawable.icon_publictransport));
-        subCat_5.add(6, new Category("7", getContext().getString(R.string.subCat5_7_journey), R.drawable.icon_journey));
+        subCat_5.add(0, new Category("6", getContext().getString(R.string.subCat5_6_publictransport), R.drawable.icon_publictransport));
+        subCat_5.add(1, new Category("7", getContext().getString(R.string.subCat5_7_journey), R.drawable.icon_journey));
+        subCat_5.add(2, new Category("1", getContext().getString(R.string.subCat5_1_religion), R.drawable.icon_religion));
+        subCat_5.add(3, new Category("2", getContext().getString(R.string.subCat5_2_shop), R.drawable.icon_shopping));
+        subCat_5.add(4, new Category("3", getContext().getString(R.string.subCat5_3_gym), R.drawable.icon_gym));
+        subCat_5.add(5, new Category("4", getContext().getString(R.string.subCat5_4_sauna), R.drawable.icon_sauna));
+        subCat_5.add(6, new Category("5", getContext().getString(R.string.subCat5_5_events), R.drawable.icon_events));
         subCat_5.add(7, new Category("8", getContext().getString(R.string.subCat5_8_hospital), R.drawable.icon_hospital));
-        subCat_5.add(4, new Category("9", getContext().getString(R.string.subCat5_8_swimmingpool), R.drawable.icon_swimmingpool));
+        subCat_5.add(8, new Category("9", getContext().getString(R.string.subCat5_8_swimmingpool), R.drawable.icon_swimmingpool));
 
         List<Category> subCat_6 = new ArrayList<>();
         subCat_6.add(0, new Category("1", getContext().getString(R.string.subCat6_1_dictionary), R.drawable.icon_dictionary));
@@ -126,10 +125,10 @@ public class CategoryFragment extends Fragment {
         categories.add(0, new Category("1", getContext().getString(R.string.category_1), subCat_1));
         categories.add(1, new Category("2", getContext().getString(R.string.category_2), subCat_2));
         categories.add(2, new Category("3", getContext().getString(R.string.category_3), subCat_3));
-        categories.add(3, new Category("4", getContext().getString(R.string.category_4), subCat_4));
-        categories.add(4, new Category("5", getContext().getString(R.string.category_5), subCat_5));
-        categories.add(5, new Category("6", getContext().getString(R.string.category_6), subCat_6));
-        categories.add(4, new Category("7", getContext().getString(R.string.category_7), subCat_7));
+        categories.add(3, new Category("5", getContext().getString(R.string.category_5), subCat_5));
+        categories.add(4, new Category("6", getContext().getString(R.string.category_6), subCat_6));
+        categories.add(5, new Category("4", getContext().getString(R.string.category_4), subCat_4));
+        categories.add(6, new Category("7", getContext().getString(R.string.category_7), subCat_7));
 
         for (int i = 0; i < categories.size(); i++) {
 

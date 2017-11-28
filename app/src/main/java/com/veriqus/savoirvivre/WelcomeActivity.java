@@ -15,7 +15,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private boolean noMoreIntro = false;
     SharedPreferences.Editor editorIntro;
 
-    private final int SPLASH_DISPLAY_LENGTH = 750;
+    private static int SPLASH_DISPLAY_LENGTH = 2750;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,6 @@ public class WelcomeActivity extends AppCompatActivity {
         TextView buttonToMain = (TextView) findViewById(R.id.okButton);
         TextView okButton = (TextView) findViewById(R.id.okButton);
         final Intent toTheMain = new Intent(WelcomeActivity.this, MainActivity.class);
-
 
         if (noMoreIntro) {
             new Handler().postDelayed(new Runnable() {

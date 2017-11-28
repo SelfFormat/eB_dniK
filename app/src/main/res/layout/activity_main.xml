@@ -22,17 +22,28 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/navigation"/>
 
-    <android.support.design.widget.BottomNavigationView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
         android:id="@+id/navigation"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/colorPrimaryDark"
-        app:menu="@menu/my_navigation_items"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
         app:itemIconTint="#FFF"
         app:itemTextColor="#FFF"
-        android:layout_alignParentBottom="true"
-        />
+        app:menu="@menu/my_navigation_items" />
+
+    <!--<android.support.design.widget.BottomNavigationView-->
+        <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+        <!--android:id="@+id/navigation"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="56dp"-->
+        <!--android:background="@color/colorPrimaryDark"-->
+        <!--app:menu="@menu/my_navigation_items"-->
+        <!--app:itemIconTint="#FFF"-->
+        <!--app:itemTextColor="#FFF"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--/>-->
 
 </RelativeLayout>

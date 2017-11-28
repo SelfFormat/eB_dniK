@@ -3,9 +3,9 @@
     <item android:id="@+id/action_home"
         android:title="@string/home"
         android:icon="@drawable/home" />
-    <item android:id="@+id/action_learning"
-        android:title="@string/learning"
-        android:icon="@drawable/study" />
+    <!--<item android:id="@+id/action_learning"-->
+        <!--android:title="@string/learning"-->
+        <!--android:icon="@drawable/study" />-->
     <item android:id="@+id/action_tip"
         android:title="@string/random"
         android:icon="@drawable/bulb" />
