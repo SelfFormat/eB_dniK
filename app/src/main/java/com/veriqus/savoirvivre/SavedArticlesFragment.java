@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,12 +44,14 @@ public class SavedArticlesFragment extends Fragment {
 
         final List<String> quotesTitles = new ArrayList<>();
         final List<String> quotesContents = new ArrayList<>();
+        final List<String> quotesCategories = new ArrayList<>();
 
         for (String key : savedList.keySet()) {
             int num =+ 0;
             quotesContents.add(num, ((MainActivity)getActivity()).getArticleContentbyID(key));
             quotesTitles.add(num, ((MainActivity)getActivity()).getArticleTitlebyID(key));
-
+            quotesCategories.add(num, ((MainActivity)getActivity()).getCategory(key));
+            Log.i("Cat:", quotesCategories.get(num));
         }
 //
 //        for (Map.Entry<String, String> entry : savedList.entrySet()) {
@@ -85,7 +88,7 @@ public class SavedArticlesFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    mCallback.onArticleSelected(quotesTitles.get(position));
+                    mCallback.onArticleSelected("SAVED", position);
                 }
             });
 

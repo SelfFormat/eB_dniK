@@ -84,5 +84,7 @@
     <string name="subCat5_8_swimmingpool">Swimming pool</string>
     <string name="subCat7_1_punctuation">Punctuation</string>
     <string name="category_7">Language</string>
+    <string name="no_next">No next article</string>
+    <string name="no_previous">No previous article</string>
 
 </resources>

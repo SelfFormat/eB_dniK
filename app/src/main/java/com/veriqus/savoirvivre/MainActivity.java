@@ -196,11 +196,12 @@ public class MainActivity
     }
 
     @Override
-    public void onArticleSelected(String name) {
+    public void onArticleSelected(String categoryName, int position) {
         //new fragment stop error: fragment already active
         ArticleFragment newFragment = new ArticleFragment();
         Bundle args = new Bundle();
-        args.putString(newFragment.ARTICLE_NAME, name);
+        args.putString("CATEGORY_ID", categoryName);
+        args.putInt("ARTICLE_POSITION", position);
         newFragment.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, newFragment);
@@ -289,8 +290,8 @@ public class MainActivity
         return text;
     }
 
-    public String getArticleType(String name) {
-        String text = databaseAccess.getArticleType(name);
+    public String getCategory(String id) {
+        String text = databaseAccess.getCategory(id);
         return text;
     }
 

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/constrainSnackbar">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,7 +32,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_above="@id/icon_card_bar"
+                    android:layout_above="@id/icon_card_bar_article"
                     android:orientation="vertical">
 
                     <android.support.constraint.ConstraintLayout
@@ -93,7 +94,7 @@
 
 
                 <LinearLayout
-                    android:id="@+id/icon_card_bar"
+                    android:id="@+id/icon_card_bar_article"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_alignParentBottom="true"
@@ -101,6 +102,9 @@
                     android:orientation="horizontal">
 
                     <ImageView
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
                         android:id="@+id/previousArticleButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -110,6 +114,9 @@
                         app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp" />
 
                     <ImageView
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
                         android:id="@+id/saveArticleButton"
                         android:layout_width="48dp"
                         android:layout_height="wrap_content"
@@ -119,6 +126,9 @@
                         app:srcCompat="@drawable/ic_favorite_border_black_36dp" />
 
                     <ImageView
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
                         android:id="@+id/shareArticleButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -128,6 +138,9 @@
                         app:srcCompat="@drawable/ic_share_black_36dp" />
 
                     <ImageView
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
                         android:id="@+id/nextArticleButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -136,41 +149,26 @@
                         android:padding="8dp"
                         app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp" />
 
+                    <ImageView
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:id="@+id/randomArticleButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/ic_refresh_black_36dp"
+                        android:visibility="gone"/>
+
+
                 </LinearLayout>
 
             </RelativeLayout>
 
 
         </android.support.v7.widget.CardView>
-
-        <LinearLayout
-            android:id="@+id/goodBadButtons"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <Button
-                android:id="@+id/goodButton"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#7F7F7F"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:text="@string/gotit"
-                android:textColor="@android:color/white" />
-
-            <Button
-                android:id="@+id/badButton"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/colorPrimaryDark"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:text="@string/repetiton"
-                android:textColor="@android:color/white" />
-
-        </LinearLayout>
 
         <View
             android:layout_width="match_parent"

@@ -36,7 +36,7 @@ public class ListArticlesFragment extends Fragment {
 
     // Container Activity must implement this interface
     public interface OnArticleSelectedListener {
-        public void onArticleSelected(String name);
+        public void onArticleSelected(String nameCategory, int position);
     }
 
 
@@ -56,26 +56,15 @@ public class ListArticlesFragment extends Fragment {
 
 
         String categoryName = bundle.getString(CATEGORYNAME_VALUE);
-        String type = bundle.getString("TYPE_VALUE");
-        String categoryID = ((MainActivity)getActivity()).getCategoryIDByName(categoryName);
+        final String categoryID = ((MainActivity)getActivity()).getCategoryIDByName(categoryName);
 
 //        TODO: Add dependencies if type is NULL (show all)
 
         listView = (ListView) rootView.findViewById(R.id.listVi);
-        final List<String> quotesTitles;
-        final List<String> quotesContents;
+        final List<String> quotesTitles = ((MainActivity) getActivity()).getArticleList(categoryID, "title");
+        final List<String> quotesContents = ((MainActivity) getActivity()).getArticleList(categoryID, "content");
 
-        if (!(type.equals("all"))) {
-            quotesTitles = ((MainActivity) getActivity()).getArticleList(categoryID, "title", type);
-            Log.i("CatID", categoryID);
-            quotesContents = ((MainActivity) getActivity()).getArticleList(categoryID, "content", type);
-        } else {
-            quotesTitles = ((MainActivity) getActivity()).getArticleList(categoryID, "title");
-            Log.i("CatID", categoryID);
-            quotesContents = ((MainActivity) getActivity()).getArticleList(categoryID, "content");
-        }
-
-
+        Log.i("CatID", categoryID);
 
 
         final ArrayList<ItemList> arrayOfArticles = new ArrayList<>();
@@ -96,7 +85,7 @@ public class ListArticlesFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    mCallback.onArticleSelected(quotesTitles.get(position));
+                    mCallback.onArticleSelected(categoryID, position);
                 }
             });
 

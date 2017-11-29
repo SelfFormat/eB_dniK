@@ -7,14 +7,15 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.HashMap;
 
@@ -31,6 +32,11 @@ public class TipFragment extends Fragment {
     String articleName;
     HashMap<String, String> savedList;
     boolean isSaved;
+    ImageView imgPlace;
+    TextView articleTitleText;
+    TextView articleContentText;
+    ImageView saveIcon;
+    int dip20;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,112 +45,15 @@ public class TipFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
 
         setHasOptionsMenu(true);
-//        Bundle bundle = getArguments();
-//        articleName = bundle.getString(ARTICLE_NAME_TIP);
-        articleName = ((MainActivity)getActivity()).getRandromTitle();
 
         //pixel to dp conversion
         Resources r = getResources();
-        final int dip20 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, r.getDisplayMetrics());
+        dip20 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, r.getDisplayMetrics());
 
-
-        TextView articleTitleText = (TextView) rootView.findViewById(R.id.articleTitle);
-        articleTitleText.setText(articleName);
-
-//        String articleType = ((MainActivity) this.getContext()).getArticleType(articleName);
-//
-//        if (articleType.equals("good")) {
-//            articleTitleText.setBackgroundColor(Color.parseColor("#009688"));
-//            articleTitleText.setText(getContext().getText(R.string.good));
-//        } else if (articleType.equals("bad")) {
-//            articleTitleText.setBackgroundColor(Color.parseColor("#A54E4E"));
-//            articleTitleText.setText(getContext().getText(R.string.bad));
-//        }
-
-        TextView articleContentText = (TextView) rootView.findViewById(R.id.articleContent);
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            articleContentText.setText(Html.fromHtml(((MainActivity)getActivity()).getArticleContent(articleName),Html.FROM_HTML_MODE_LEGACY));
-        } else {
-            articleContentText.setText(Html.fromHtml(((MainActivity)getActivity()).getArticleContent(articleName)));
-        }
-
-        ImageView  imgPlace = (ImageView) rootView.findViewById(R.id.imgPlace);
-
-        // Retrieve the selected image as byte[]
-        if (((MainActivity) getActivity()).getImageByte(articleName) != null) {
-            imgPlace.setPadding(0,0,0,dip20);
-            byte[] data = ((MainActivity) getActivity()).getImageByte(articleName);
-            // Convert to Bitmap
-            Bitmap image = toBitmap(data);
-            // Set to the imgPlace
-            imgPlace.setImageBitmap(image);
-        }
-
-
-        final ImageView saveIcon = (ImageView) rootView.findViewById(R.id.saveArticleButton);
+        saveIcon = (ImageView) rootView.findViewById(R.id.saveArticleButton);
         savedList = ((MainActivity)getActivity()).loadMap();
-        isSaved = savedList.containsKey(((MainActivity)getActivity()).getArticleID(articleName));
 
-
-        Button goodButton = (Button) rootView.findViewById(R.id.goodButton);
-        goodButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                isSaved = savedList.containsKey(((MainActivity)getActivity()).getArticleID(articleName));
-                if (!isSaved) {
-                    saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_black_36dp));
-                } else {
-                    saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_black_36dp));
-                }
-
-
-                // TODO: Na razie skopiowane. poprawic ponizszy kod zeby nie wyswietlal 2 razy tego samego
-                articleName = ((MainActivity)getActivity()).getRandromTitle();
-
-                TextView articleTitleText = (TextView) rootView.findViewById(R.id.articleTitle);
-                articleTitleText.setText(articleName);
-
-//                String articleType = ((MainActivity) getContext()).getArticleType(articleName);
-//
-//                if (articleType.equals("good")) {
-//                    articleTitleText.setBackgroundColor(Color.parseColor("#009688"));
-//                    articleTitleText.setText(getContext().getText(R.string.good));
-//                } else if (articleType.equals("bad")) {
-//                    articleTitleText.setBackgroundColor(Color.parseColor("#A54E4E"));
-//                    articleTitleText.setText(getContext().getText(R.string.bad));
-//                }
-
-                TextView articleContentText = (TextView) rootView.findViewById(R.id.articleContent);
-
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                    articleContentText.setText(Html.fromHtml(((MainActivity)getActivity()).getArticleContent(articleName),Html.FROM_HTML_MODE_LEGACY));
-                } else {
-                    articleContentText.setText(Html.fromHtml(((MainActivity)getActivity()).getArticleContent(articleName)));
-                }
-
-                ImageView  imgPlace = (ImageView) rootView.findViewById(R.id.imgPlace);
-
-                // Retrieve the selected image as byte[]
-                if (((MainActivity) getActivity()).getImageByte(articleName) != null) {
-                    imgPlace.setPadding(0,0,0,dip20);
-                    byte[] data = ((MainActivity) getActivity()).getImageByte(articleName);
-                    // Convert to Bitmap
-                    Bitmap image = toBitmap(data);
-                    // Set to the imgPlace
-                    imgPlace.setImageBitmap(image);
-                }
-            }
-        });
-
-
-        if (!isSaved) {
-            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_black_36dp));
-        } else {
-            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_black_36dp));
-        }
-
+        loadRandomArticle();
 
         saveIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,7 +88,78 @@ public class TipFragment extends Fragment {
             }
         });
 
+        final ImageView previous = (ImageView) rootView.findViewById(R.id.previousArticleButton);
+        previous.setVisibility(View.GONE);
+
+        final ImageView next = (ImageView) rootView.findViewById(R.id.nextArticleButton);
+        next.setVisibility(View.GONE);
+
+        final ImageView refresh = (ImageView) rootView.findViewById(R.id.randomArticleButton);
+        refresh.setVisibility(View.VISIBLE);
+
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadRandomArticle();
+            }
+        });
+
+
         return rootView;
+    }
+
+
+    public void loadRandomArticle() {
+        isSaved = savedList.containsKey(((MainActivity)getActivity()).getArticleID(articleName));
+        if (!isSaved) {
+            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_black_36dp));
+        } else {
+            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_black_36dp));
+        }
+
+        articleName = ((MainActivity)getActivity()).getRandromTitle();
+
+        articleTitleText = (TextView) rootView.findViewById(R.id.articleTitle);
+        articleTitleText.setText(articleName);
+
+
+        articleContentText = (TextView) rootView.findViewById(R.id.articleContent);
+
+//                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+//                    articleContentText.setText(Html.fromHtml(((MainActivity)getActivity()).getArticleContent(articleName),Html.FROM_HTML_MODE_LEGACY));
+//                } else {
+//                    articleContentText.setText(Html.fromHtml(((MainActivity)getActivity()).getArticleContent(articleName)));
+//                }
+
+        articleContentText.setText(((MainActivity)getActivity()).getArticleContent(articleName));
+
+        imgPlace = (ImageView) rootView.findViewById(R.id.imgPlace);
+        byte[] data = ((MainActivity) getActivity()).getImageByte(articleName);
+        int lenData = 0;
+        if(!data.equals(null)){
+            lenData = data.length;
+        }
+
+        // Retrieve the selected image as byte[]
+        if (!data.equals(null) && lenData > 1) {
+
+            imgPlace.setPadding(dip20, dip20, dip20 ,dip20);
+//            byte[] data = ((MainActivity) getActivity()).getImageByte(quotesTitles.get(position));
+            Log.i("Image:", "shown");
+            // Convert to Bitmap
+
+            //Drawable image = new BitmapDrawable(getResources(),BitmapFactory.decodeByteArray(data, 0, data.length));
+            //Bitmap image = toBitmap(data);
+            // Set to the imgPlace
+
+            Glide.with(getActivity())
+                    .load(data).asBitmap()
+                    .into(imgPlace);
+            //imgPlace.setImageBitmap(image);
+            imgPlace.setVisibility(View.VISIBLE);
+        } else {
+            imgPlace.setVisibility(View.GONE);
+        }
     }
 
     public static Bitmap toBitmap(byte[] image) {

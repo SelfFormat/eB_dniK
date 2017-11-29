@@ -4,7 +4,6 @@ package com.veriqus.savoirvivre;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -16,7 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,15 +72,15 @@ public class ArticleFromModeFragment extends Fragment {
         final ImageView  imgPlace = (ImageView) rootView.findViewById(R.id.imgPlace);
 
 
-        String articleType = ((MainActivity) this.getContext()).getArticleType(articleName);
-
-        if (articleType.equals("good")) {
-            articleTitleText.setBackgroundColor(Color.parseColor("#009688"));
-            articleTitleText.setText(getContext().getText(R.string.good));
-        } else if (articleType.equals("bad")) {
-            articleTitleText.setBackgroundColor(Color.parseColor("#A54E4E"));
-            articleTitleText.setText(getContext().getText(R.string.bad));
-        }
+//        String articleType = ((MainActivity) this.getContext()).getArticleType(articleName);
+//
+//        if (articleType.equals("good")) {
+//            articleTitleText.setBackgroundColor(Color.parseColor("#009688"));
+//            articleTitleText.setText(getContext().getText(R.string.good));
+//        } else if (articleType.equals("bad")) {
+//            articleTitleText.setBackgroundColor(Color.parseColor("#A54E4E"));
+//            articleTitleText.setText(getContext().getText(R.string.bad));
+//        }
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             articleContentText.setText(Html.fromHtml(quotesContents.get(counter),Html.FROM_HTML_MODE_LEGACY));
@@ -99,55 +97,55 @@ public class ArticleFromModeFragment extends Fragment {
             // Set to the imgPlace
             imgPlace.setImageBitmap(image);
         }
-
-        Button goodButton = (Button) rootView.findViewById(R.id.goodButton);
-        goodButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (counter < listSize-1) {
-                    ++counter;
-                    articleName = quotesTitles.get(counter);
-
-                    String articleType = ((MainActivity) getContext()).getArticleType(articleName);
-
-                    if (articleType.equals("good")) {
-                        articleTitleText.setBackgroundColor(Color.parseColor("#009688"));
-                        articleTitleText.setText(getContext().getText(R.string.good));
-                    } else if (articleType.equals("bad")) {
-                        articleTitleText.setBackgroundColor(Color.parseColor("#A54E4E"));
-                        articleTitleText.setText(getContext().getText(R.string.bad));
-                    }
-
-                    if (counter < listSize) {
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                            articleContentText.setText(Html.fromHtml(quotesContents.get(counter), Html.FROM_HTML_MODE_LEGACY));
-                        } else {
-                            articleContentText.setText(Html.fromHtml(quotesContents.get(counter)));
-                        }
-                    }
-
-                    if (((MainActivity) getActivity()).getImageByte(articleName) != null) {
-                        imgPlace.setPadding(0, 0, 0, dip20);
-                        byte[] data = ((MainActivity) getActivity()).getImageByte(articleName);
-                        // Convert to Bitmap
-                        Bitmap image = toBitmap(data);
-                        // Set to the imgPlace
-                        imgPlace.setImageBitmap(image);
-                    }
-
-
-                    //Toast.makeText(getContext(), "OK", Toast.LENGTH_SHORT).show();
-                }
-
-                else{
-                    Toast.makeText(getContext(), "NO MORE TO SHOW", Toast.LENGTH_SHORT).show();
-                }
-
-
-            }
-        });
-
-
+//
+//        Button goodButton = (Button) rootView.findViewById(R.id.goodButton);
+//        goodButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (counter < listSize-1) {
+//                    ++counter;
+//                    articleName = quotesTitles.get(counter);
+//
+//                    String articleType = ((MainActivity) getContext()).getArticleType(articleName);
+//
+//                    if (articleType.equals("good")) {
+//                        articleTitleText.setBackgroundColor(Color.parseColor("#009688"));
+//                        articleTitleText.setText(getContext().getText(R.string.good));
+//                    } else if (articleType.equals("bad")) {
+//                        articleTitleText.setBackgroundColor(Color.parseColor("#A54E4E"));
+//                        articleTitleText.setText(getContext().getText(R.string.bad));
+//                    }
+//
+//                    if (counter < listSize) {
+//                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+//                            articleContentText.setText(Html.fromHtml(quotesContents.get(counter), Html.FROM_HTML_MODE_LEGACY));
+//                        } else {
+//                            articleContentText.setText(Html.fromHtml(quotesContents.get(counter)));
+//                        }
+//                    }
+//
+//                    if (((MainActivity) getActivity()).getImageByte(articleName) != null) {
+//                        imgPlace.setPadding(0, 0, 0, dip20);
+//                        byte[] data = ((MainActivity) getActivity()).getImageByte(articleName);
+//                        // Convert to Bitmap
+//                        Bitmap image = toBitmap(data);
+//                        // Set to the imgPlace
+//                        imgPlace.setImageBitmap(image);
+//                    }
+//
+//
+//                    //Toast.makeText(getContext(), "OK", Toast.LENGTH_SHORT).show();
+//                }
+//
+//                else{
+//                    Toast.makeText(getContext(), "NO MORE TO SHOW", Toast.LENGTH_SHORT).show();
+//                }
+//
+//
+//            }
+//        });
+//
+//
 
 
         return rootView;

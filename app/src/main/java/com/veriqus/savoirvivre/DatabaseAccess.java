@@ -109,9 +109,9 @@ public class DatabaseAccess {
         return text;
     }
 
-    public String getArticleType(String name) {
+    public String getCategory(String name) {
         String text = "";
-        Cursor cursor = database.rawQuery("SELECT type FROM entry WHERE title_" + getLang() + "= " + "\"" + name + "\"", null);
+        Cursor cursor = database.rawQuery("SELECT category FROM entry WHERE _ID= " + "\"" + name + "\"", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             text = cursor.getString(0);

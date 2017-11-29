@@ -33,7 +33,7 @@ public class ArticleListAdapter extends ArrayAdapter<ItemList> {
 
             //View strip = convertView.findViewById(R.id.strip);
 
-            String articleType = ((MainActivity) this.getContext()).getArticleType(itemList.title);
+            //String articleType = ((MainActivity) this.getContext()).getArticleType(itemList.title);
 
 //            if (articleType.equals("good")) {
 //                strip.setBackgroundColor(Color.parseColor("#009688"));

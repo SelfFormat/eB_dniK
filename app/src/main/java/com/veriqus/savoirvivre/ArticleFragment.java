@@ -7,22 +7,19 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-
-import static com.veriqus.savoirvivre.ListArticlesFragment.CATEGORYNAME_VALUE;
+import java.util.List;
 
 
 public class ArticleFragment extends Fragment {
@@ -38,6 +35,12 @@ public class ArticleFragment extends Fragment {
     String articleContent;
     HashMap<String, String> savedList;
     boolean isSaved;
+    int position;
+    List<String> quotesTitles;
+    List<String> quotesContents;
+    TextView articleContentTextView;
+    TextView articleTitleText;
+    int dip20;
 
 
     @Override
@@ -46,70 +49,42 @@ public class ArticleFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_article, container, false);
         setHasOptionsMenu(true);
 
-        Bundle bundle = getArguments();
-        String categoryName = bundle.getString(CATEGORYNAME_VALUE);
-        articleName = bundle.getString(ARTICLE_NAME);
-
-        String type = bundle.getString("TYPE_VALUE");
-        String categoryID = ((MainActivity)getActivity()).getCategoryIDByName(categoryName);
-
-
 
         //pixel to dp conversion
         Resources r = getResources();
-        int dip20 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, r.getDisplayMetrics());
+        dip20 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, r.getDisplayMetrics());
 
-        Button goodButton = (Button) rootView.findViewById(R.id.goodButton);
-        goodButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "OK", Toast.LENGTH_SHORT).show();
+        Bundle bundle = getArguments();
+        String categoryID = bundle.getString("CATEGORY_ID");
+        Log.i("CatID", categoryID);
+        position = bundle.getInt("ARTICLE_POSITION");
+
+
+        if(categoryID.equals("SAVED"))
+        {
+            HashMap<String, String> savedList = ((MainActivity)getActivity()).loadMap();
+
+            quotesTitles = new ArrayList<>();
+            quotesContents = new ArrayList<>();
+
+            for (String key : savedList.keySet()) {
+                int num =+ 0;
+                quotesContents.add(num, ((MainActivity)getActivity()).getArticleContentbyID(key));
+                quotesTitles.add(num, ((MainActivity)getActivity()).getArticleTitlebyID(key));
+
             }
-        });
-
-        TextView articleContentTextView = (TextView) rootView.findViewById(R.id.articleContent);
-        TextView articleTitleText = (TextView) rootView.findViewById(R.id.articleTitle);
-        articleTitleText.setText(articleName);
-
-//        String articleType = ((MainActivity) this.getContext()).getArticleType(articleName);
-//
-//        if (articleType.equals("good")) {
-//            articleTitleText.setBackgroundColor(Color.parseColor("#009688"));
-//            articleTitleText.setText(getContext().getText(R.string.good));
-//        } else if (articleType.equals("bad")) {
-//            articleTitleText.setBackgroundColor(Color.parseColor("#A54E4E"));
-//            articleTitleText.setText(getContext().getText(R.string.bad));
-//        }
-
-
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            articleContent = Html.fromHtml(((MainActivity)getActivity()).getArticleContent(articleName),Html.FROM_HTML_MODE_LEGACY).toString();
-        } else {
-            articleContent = Html.fromHtml(((MainActivity)getActivity()).getArticleContent(articleName)).toString();
+        }
+        else {
+            quotesTitles = ((MainActivity) getActivity()).getArticleList(categoryID, "title");
+            quotesContents = ((MainActivity) getActivity()).getArticleList(categoryID, "content");
         }
 
-        articleContentTextView.setText(articleContent);
+        articleContentTextView = (TextView) rootView.findViewById(R.id.articleContent);
+        articleTitleText = (TextView) rootView.findViewById(R.id.articleTitle);
 
-        ImageView  imgPlace = (ImageView) rootView.findViewById(R.id.imgPlace);
 
-        // Retrieve the selected image as byte[]
-        if (((MainActivity) getActivity()).getImageByte(articleName).length > 1) {
-            imgPlace.setPadding(dip20, dip20, dip20 ,dip20);
-            byte[] data = ((MainActivity) getActivity()).getImageByte(articleName);
-            Log.i("Image:", "shown");
-            // Convert to Bitmap
 
-            //Drawable image = new BitmapDrawable(getResources(),BitmapFactory.decodeByteArray(data, 0, data.length));
-            //Bitmap image = toBitmap(data);
-            // Set to the imgPlace
-
-            Glide.with(getActivity())
-                    .load(data).asBitmap()
-                    .into(imgPlace);
-            //imgPlace.setImageBitmap(image);
-            imgPlace.setVisibility(View.VISIBLE);
-        }
+        loadArticle();
 
 
 
@@ -160,12 +135,38 @@ public class ArticleFragment extends Fragment {
 
 
         final ImageView share = (ImageView) rootView.findViewById(R.id.shareArticleButton);
-
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 shareIntent(articleName, articleContent);
 
+            }
+        });
+
+
+        final ImageView previous = (ImageView) rootView.findViewById(R.id.previousArticleButton);
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position > 0) {
+                    position--;
+                } else {
+                    position = quotesTitles.size()-1;
+                }
+                loadArticle();
+            }
+        });
+
+        final ImageView next = (ImageView) rootView.findViewById(R.id.nextArticleButton);
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position < quotesTitles.size()-1) {
+                    position++;
+                } else {
+                    position=0;
+                }
+                loadArticle();
             }
         });
 
@@ -187,6 +188,50 @@ public class ArticleFragment extends Fragment {
         startActivity(sendIntent);
     }
 
+    private void loadArticle() {
+        articleName = quotesTitles.get(position);
+        articleTitleText.setText(articleName);
+
+//
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+//            articleContent = Html.fromHtml(((MainActivity)getActivity()).getArticleContent(articleName),Html.FROM_HTML_MODE_LEGACY).toString();
+//            Log.i(">","25");
+//        } else {
+//            articleContent = Html.fromHtml(((MainActivity)getActivity()).getArticleContent(articleName)).toString();
+//            Log.i("<","21");
+//        }
+
+        articleContentTextView.setText(quotesContents.get(position));
+
+        ImageView  imgPlace = (ImageView) rootView.findViewById(R.id.imgPlace);
+        byte[] data = ((MainActivity) getActivity()).getImageByte(quotesTitles.get(position));
+        int lenData = 0;
+        if(!data.equals(null)){
+            lenData = data.length;
+        }
+
+
+        // Retrieve the selected image as byte[]
+        if (!data.equals(null) && lenData > 1) {
+
+            imgPlace.setPadding(dip20, dip20, dip20 ,dip20);
+//            byte[] data = ((MainActivity) getActivity()).getImageByte(quotesTitles.get(position));
+            Log.i("Image:", "shown");
+            // Convert to Bitmap
+
+            //Drawable image = new BitmapDrawable(getResources(),BitmapFactory.decodeByteArray(data, 0, data.length));
+            //Bitmap image = toBitmap(data);
+            // Set to the imgPlace
+
+            Glide.with(getActivity())
+                    .load(data).asBitmap()
+                    .into(imgPlace);
+            //imgPlace.setImageBitmap(image);
+            imgPlace.setVisibility(View.VISIBLE);
+        } else {
+            imgPlace.setVisibility(View.GONE);
+        }
+    }
 
 
 //    //Heart button option
