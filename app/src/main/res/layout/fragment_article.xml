@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/constrainSnackbar">
+    android:id="@+id/swipeLay">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -75,7 +75,8 @@
                             card_view:layout_constraintBottom_toBottomOf="parent"
                             card_view:layout_constraintEnd_toEndOf="parent"
                             card_view:layout_constraintStart_toStartOf="parent"
-                            card_view:layout_constraintTop_toBottomOf="@+id/articleTitle">
+                            card_view:layout_constraintTop_toBottomOf="@+id/articleTitle"
+                            android:id="@+id/cardViewSwipe">
 
                             <TextView
                                 android:id="@+id/articleContent"
@@ -177,5 +178,6 @@
 
 
     </LinearLayout>
+
 
 </RelativeLayout>

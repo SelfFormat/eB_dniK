@@ -125,7 +125,7 @@ public class ArticleFromModeFragment extends Fragment {
 //                    }
 //
 //                    if (((MainActivity) getActivity()).getImageByte(articleName) != null) {
-//                        imgPlace.setPadding(0, 0, 0, dip20);
+//                        imgPlace.setPadding(0, 0, 0, dip16toPx);
 //                        byte[] data = ((MainActivity) getActivity()).getImageByte(articleName);
 //                        // Convert to Bitmap
 //                        Bitmap image = toBitmap(data);

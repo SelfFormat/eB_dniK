@@ -3,8 +3,6 @@ package com.veriqus.savoirvivre;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -38,10 +36,12 @@ public class ArticleFragment extends Fragment {
     int position;
     List<String> quotesTitles;
     List<String> quotesContents;
+    ImageView saveIcon;
     TextView articleContentTextView;
     TextView articleTitleText;
-    int dip20;
-
+    ViewGroup swipeCard;
+    View swipeLay;
+    int dip16toPx;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,29 +52,68 @@ public class ArticleFragment extends Fragment {
 
         //pixel to dp conversion
         Resources r = getResources();
-        dip20 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, r.getDisplayMetrics());
+        dip16toPx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, r.getDisplayMetrics());
 
         Bundle bundle = getArguments();
         String categoryID = bundle.getString("CATEGORY_ID");
         Log.i("CatID", categoryID);
         position = bundle.getInt("ARTICLE_POSITION");
 
+        swipeLay = rootView.findViewById(R.id.swipeLay);
+        swipeLay.setOnTouchListener(new OnSwipeTouchListener(getContext()){
+            public void onSwipeRight() {
+                //Toast.makeText(getContext(), "right", Toast.LENGTH_SHORT).show();
+                if (position < quotesTitles.size() - 1) {
+                    position++;
+                } else {
+                    position = 0;
+                }
+                loadArticle();
+            }
+            public void onSwipeLeft() {
+                //Toast.makeText(getContext(), "left", Toast.LENGTH_SHORT).show();
+                if (position > 0) {
+                    position--;
+                } else {
+                    position = quotesTitles.size() - 1;
+                }
+                loadArticle();
+            }
+        });
+        swipeCard = (ViewGroup) rootView.findViewById(R.id.cardViewSwipe);
+        swipeCard.setOnTouchListener(new OnSwipeTouchListener(getContext()){
+            public void onSwipeRight() {
+                //Toast.makeText(getContext(), "right", Toast.LENGTH_SHORT).show();
+                if (position < quotesTitles.size() - 1) {
+                    position++;
+                } else {
+                    position = 0;
+                }
+                loadArticle();
+            }
+            public void onSwipeLeft() {
+                //Toast.makeText(getContext(), "left", Toast.LENGTH_SHORT).show();
+                if (position > 0) {
+                    position--;
+                } else {
+                    position = quotesTitles.size() - 1;
+                }
+                loadArticle();
+            }
+        });
 
-        if(categoryID.equals("SAVED"))
-        {
-            HashMap<String, String> savedList = ((MainActivity)getActivity()).loadMap();
+        if (categoryID.equals("SAVED")) {
+            HashMap<String, String> savedList = ((MainActivity) getActivity()).loadMap();
 
             quotesTitles = new ArrayList<>();
             quotesContents = new ArrayList<>();
 
             for (String key : savedList.keySet()) {
-                int num =+ 0;
-                quotesContents.add(num, ((MainActivity)getActivity()).getArticleContentbyID(key));
-                quotesTitles.add(num, ((MainActivity)getActivity()).getArticleTitlebyID(key));
-
+                int num = +0;
+                quotesContents.add(num, ((MainActivity) getActivity()).getArticleContentbyID(key));
+                quotesTitles.add(num, ((MainActivity) getActivity()).getArticleTitlebyID(key));
             }
-        }
-        else {
+        } else {
             quotesTitles = ((MainActivity) getActivity()).getArticleList(categoryID, "title");
             quotesContents = ((MainActivity) getActivity()).getArticleList(categoryID, "content");
         }
@@ -83,55 +122,14 @@ public class ArticleFragment extends Fragment {
         articleTitleText = (TextView) rootView.findViewById(R.id.articleTitle);
 
 
-
         loadArticle();
-
-
-
-        final ImageView saveIcon = (ImageView) rootView.findViewById(R.id.saveArticleButton);
-        savedList = ((MainActivity)getActivity()).loadMap();
-        isSaved = savedList.containsKey(((MainActivity)getActivity()).getArticleID(articleName));
-
-        if (!isSaved) {
-            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_black_36dp));
-        } else {
-            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_black_36dp));
-        }
-
 
         saveIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (!isSaved) {
-                    String ID = ((MainActivity) getActivity()).getArticleID(articleName);
-                    savedList.put(ID, ID);
-                    ((MainActivity) getActivity()).saveMap(savedList);
-                    saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_black_36dp));
-
-
-//
-//                    SharedPreferences.Editor editor = getContext().getSharedPreferences(SAVED, 0).edit();
-//                    for (Map.Entry<String, String> entry : savedList.entrySet()) {
-//                        editor.putString(entry.getKey(), entry.getValue());
-//                    }
-//
-//                    ((MainActivity)getActivity()).save(articleName, 1);
-                    //Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
-                } else {
-                    saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_black_36dp));
-                    String ID = ((MainActivity) getActivity()).getArticleID(articleName);
-                    savedList.remove(ID);
-                    ((MainActivity) getActivity()).saveMap(savedList);
-
-
-//                    ((MainActivity)getActivity()).save(articleName, 0);
-                    //Toast.makeText(getContext(), "Removed", Toast.LENGTH_SHORT).show();
-                }
-                isSaved = savedList.containsKey(((MainActivity)getActivity()).getArticleID(articleName));
+                save();
             }
         });
-
 
 
         final ImageView share = (ImageView) rootView.findViewById(R.id.shareArticleButton);
@@ -148,10 +146,10 @@ public class ArticleFragment extends Fragment {
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(position > 0) {
+                if (position > 0) {
                     position--;
                 } else {
-                    position = quotesTitles.size()-1;
+                    position = quotesTitles.size() - 1;
                 }
                 loadArticle();
             }
@@ -161,26 +159,20 @@ public class ArticleFragment extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(position < quotesTitles.size()-1) {
+                if (position < quotesTitles.size() - 1) {
                     position++;
                 } else {
-                    position=0;
+                    position = 0;
                 }
                 loadArticle();
             }
         });
 
 
-
         return rootView;
     }
 
-    public static Bitmap toBitmap(byte[] image) {
-        return BitmapFactory.decodeByteArray(image, 0, image.length);
-    }
-
-
-    private void shareIntent(String title, String content){
+    private void shareIntent(String title, String content) {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, title + "\n" + content);
@@ -188,11 +180,28 @@ public class ArticleFragment extends Fragment {
         startActivity(sendIntent);
     }
 
+    private void save(){
+        if (!isSaved) {
+            String ID = ((MainActivity) getActivity()).getArticleID(articleName);
+            savedList.put(ID, ID);
+            ((MainActivity) getActivity()).saveMap(savedList);
+            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_black_36dp));
+        } else {
+            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_black_36dp));
+            String ID = ((MainActivity) getActivity()).getArticleID(articleName);
+            savedList.remove(ID);
+            ((MainActivity) getActivity()).saveMap(savedList);
+        }
+        isSaved = savedList.containsKey(((MainActivity) getActivity()).getArticleID(articleName));
+    }
+
     private void loadArticle() {
         articleName = quotesTitles.get(position);
+        articleContent = quotesContents.get(position);
         articleTitleText.setText(articleName);
 
-//
+//        FOR HTML CONVERSION
+
 //        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
 //            articleContent = Html.fromHtml(((MainActivity)getActivity()).getArticleContent(articleName),Html.FROM_HTML_MODE_LEGACY).toString();
 //            Log.i(">","25");
@@ -201,91 +210,35 @@ public class ArticleFragment extends Fragment {
 //            Log.i("<","21");
 //        }
 
-        articleContentTextView.setText(quotesContents.get(position));
+        articleContentTextView.setText(articleContent);
 
-        ImageView  imgPlace = (ImageView) rootView.findViewById(R.id.imgPlace);
-        byte[] data = ((MainActivity) getActivity()).getImageByte(quotesTitles.get(position));
+        ImageView imgPlace = (ImageView) rootView.findViewById(R.id.imgPlace);
+        byte[] imgByteData = ((MainActivity) getActivity()).getImageByte(quotesTitles.get(position));
         int lenData = 0;
-        if(!data.equals(null)){
-            lenData = data.length;
+        if (!imgByteData.equals(null)) {
+            lenData = imgByteData.length;
         }
 
-
-        // Retrieve the selected image as byte[]
-        if (!data.equals(null) && lenData > 1) {
-
-            imgPlace.setPadding(dip20, dip20, dip20 ,dip20);
-//            byte[] data = ((MainActivity) getActivity()).getImageByte(quotesTitles.get(position));
+        if (!imgByteData.equals(null) && lenData > 1) {
+//            imgPlace.setPadding(dip16toPx, dip16toPx, dip16toPx, dip16toPx);
             Log.i("Image:", "shown");
-            // Convert to Bitmap
-
-            //Drawable image = new BitmapDrawable(getResources(),BitmapFactory.decodeByteArray(data, 0, data.length));
-            //Bitmap image = toBitmap(data);
-            // Set to the imgPlace
-
             Glide.with(getActivity())
-                    .load(data).asBitmap()
+                    .load(imgByteData).asBitmap()
                     .into(imgPlace);
-            //imgPlace.setImageBitmap(image);
             imgPlace.setVisibility(View.VISIBLE);
         } else {
             imgPlace.setVisibility(View.GONE);
         }
+
+        saveIcon = (ImageView) rootView.findViewById(R.id.saveArticleButton);
+        savedList = ((MainActivity) getActivity()).loadMap();
+        isSaved = savedList.containsKey(((MainActivity) getActivity()).getArticleID(articleName));
+
+        if (!isSaved) {
+            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_black_36dp));
+        } else {
+            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_black_36dp));
+        }
+
     }
-
-
-//    //Heart button option
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        savedList = ((MainActivity)getActivity()).loadMap();
-//        isSaved = savedList.containsKey(((MainActivity)getActivity()).getArticleID(articleName));
-//        if(isSaved){
-//            inflater.inflate(R.menu.article_actions_alreadysaved, menu);
-//        }
-//        else{
-//            inflater.inflate(R.menu.article_actions, menu);
-//        }
-//        super.onCreateOptionsMenu(menu,inflater);
-//
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//
-//            case R.id.action_favorite:
-//
-//                if(!isSaved) {
-//                    String ID =  ((MainActivity)getActivity()).getArticleID(articleName);
-//                    savedList.put(ID, ID);
-//                    ((MainActivity)getActivity()).saveMap(savedList);
-//
-////
-////                    SharedPreferences.Editor editor = getContext().getSharedPreferences(SAVED, 0).edit();
-////                    for (Map.Entry<String, String> entry : savedList.entrySet()) {
-////                        editor.putString(entry.getKey(), entry.getValue());
-////                    }
-////
-////                    ((MainActivity)getActivity()).save(articleName, 1);
-//                    Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
-//                }
-//                else {
-//                    String ID =  ((MainActivity)getActivity()).getArticleID(articleName);
-//                    savedList.remove(ID);
-//                    ((MainActivity)getActivity()).saveMap(savedList);
-//
-//
-////                    ((MainActivity)getActivity()).save(articleName, 0);
-//                    Toast.makeText(getContext(), "Removed", Toast.LENGTH_SHORT).show();
-//                }
-//
-//                return true;
-//
-//            default:
-//                // If we got here, the user's action was not recognized.
-//                // Invoke the superclass to handle it.
-//                return super.onOptionsItemSelected(item);
-//
-//        }
-//    }
 }

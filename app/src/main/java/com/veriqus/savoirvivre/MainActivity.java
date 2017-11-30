@@ -8,11 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
@@ -29,7 +26,7 @@ public class MainActivity
         implements CategoryFragment.OnHeadlineSelectedListener,
                     ListArticlesFragment.OnArticleSelectedListener,
                     ModeFragment.onModeSelectedListener,
-                    LearningFragment.OnHeadlineSelectedListener {
+                    LearningFragment.OnHeadlineSelectedListener{
 
     DatabaseAccess databaseAccess;
     CategoryFragment firstFragment = new CategoryFragment();
@@ -41,7 +38,6 @@ public class MainActivity
     ListArticlesFragment listArticlesFragment = new ListArticlesFragment();
     ModeFragment modeFragment = new ModeFragment();
     //ArticleFromModeFragment articleFromModeFragment = new ArticleFromModeFragment();
-    String DEBUG_TAG = "TouchEvent:";
 
     boolean noMoreIntro = true;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -474,34 +470,6 @@ public class MainActivity
         }
 
         return categoryID;
-    }
-
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event){
-
-        int action = MotionEventCompat.getActionMasked(event);
-
-        switch(action) {
-            case (MotionEvent.ACTION_DOWN) :
-                Log.d(DEBUG_TAG,"Action was DOWN");
-                return true;
-            case (MotionEvent.ACTION_MOVE) :
-                Log.d(DEBUG_TAG,"Action was MOVE");
-                return true;
-            case (MotionEvent.ACTION_UP) :
-                Log.d(DEBUG_TAG,"Action was UP");
-                return true;
-            case (MotionEvent.ACTION_CANCEL) :
-                Log.d(DEBUG_TAG,"Action was CANCEL");
-                return true;
-            case (MotionEvent.ACTION_OUTSIDE) :
-                Log.d(DEBUG_TAG,"Movement occurred outside bounds " +
-                        "of current screen element");
-                return true;
-            default :
-                return super.onTouchEvent(event);
-        }
     }
 
 }
