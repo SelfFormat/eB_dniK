@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -24,8 +25,10 @@ import static android.support.v4.app.FragmentManager.POP_BACK_STACK_INCLUSIVE;
 public class MainActivity
         extends AppCompatActivity
         implements CategoryFragment.OnHeadlineSelectedListener,
+                    CategoryFragment.OnCategorySelectedListern,
                     ListArticlesFragment.OnArticleSelectedListener,
                     ModeFragment.onModeSelectedListener,
+                    SubCatListAdapter.OnLearningSubSelected,
                     LearningFragment.OnHeadlineSelectedListener{
 
     DatabaseAccess databaseAccess;
@@ -33,11 +36,8 @@ public class MainActivity
     SettingsFragment settingsFragment = new SettingsFragment();
     SavedArticlesFragment savedArticlesFragment = new SavedArticlesFragment();
     TipFragment tipFragment = new TipFragment();
-    ArticleFragment articleFragment = new ArticleFragment();
-    LearningFragment learningFragment = new LearningFragment();
     ListArticlesFragment listArticlesFragment = new ListArticlesFragment();
-    ModeFragment modeFragment = new ModeFragment();
-    //ArticleFromModeFragment articleFromModeFragment = new ArticleFromModeFragment();
+    FragmentManager fm = getSupportFragmentManager();
 
     boolean noMoreIntro = true;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -47,27 +47,24 @@ public class MainActivity
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.action_home:
-                    getSupportFragmentManager().popBackStackImmediate("subCategory", POP_BACK_STACK_INCLUSIVE);
+                    fm.popBackStackImmediate(null, POP_BACK_STACK_INCLUSIVE);
+                    getSupportActionBar().hide();
                     replaceFragment(firstFragment,getResources().getString(R.string.app_name));
                     return true;
-//                case R.id.action_learning:
-//                    getSupportFragmentManager().popBackStackImmediate(0, POP_BACK_STACK_INCLUSIVE);
-//                    replaceFragment(learningFragment, getResources().getString(R.string.learning));
-//                    return true;
                 case R.id.action_tip:
                     //this if avoid error during selecting visible fragment another time
                     if(!tipFragment.isVisible()) {
-                        getSupportFragmentManager().popBackStackImmediate(0, POP_BACK_STACK_INCLUSIVE);
+                        fm.popBackStackImmediate(0, POP_BACK_STACK_INCLUSIVE);
                         replaceFragment(tipFragment, getResources().getString(R.string.random));
                         return true;
                     }
                     return true;
                 case R.id.action_saved_articles:
-                    getSupportFragmentManager().popBackStackImmediate(0, POP_BACK_STACK_INCLUSIVE);
+                    fm.popBackStackImmediate(0, POP_BACK_STACK_INCLUSIVE);
                     replaceFragment(savedArticlesFragment,getResources().getString(R.string.saved_articles));
                     return true;
                 case R.id.action_settings:
-                    getSupportFragmentManager().popBackStackImmediate(0, POP_BACK_STACK_INCLUSIVE);
+                    fm.popBackStackImmediate(0, POP_BACK_STACK_INCLUSIVE);
                     replaceFragment(settingsFragment, getResources().getString(R.string.settings));
                     return true;
             }
@@ -99,18 +96,6 @@ public class MainActivity
         navigation.enableShiftingMode(false);
         navigation.enableItemShiftingMode(false);
 
-        //ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-
-        // Create an adapter that knows which fragment should be shown on each page
-        //TabAdapter adapter = new TabAdapter(this, getSupportFragmentManager());
-
-        // Set the adapter onto the view pager
-        //viewPager.setAdapter(adapter);
-        //navigation.setupWithViewPager(viewPager);
-
-        //tabLayout.setupWithViewPager(viewPager);
-
-
         if (findViewById(R.id.fragment_container) != null) {
 
             if (savedInstanceState != null) {
@@ -122,12 +107,45 @@ public class MainActivity
             // Intent, pass the Intent's extras to the fragment as arguments
             firstFragment.setArguments(getIntent().getExtras());
 
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, firstFragment).commit();
+            fm.beginTransaction().add(R.id.fragment_container, firstFragment).commit();
 
         }
 
         databaseAccess = DatabaseAccess.getInstance(this);
         databaseAccess.open();
+    }
+
+
+    @Override
+    public void onLearningSubSelected(String subCatName) {
+        ArticleFragment newFragment = new ArticleFragment();
+        Bundle args = new Bundle();
+        args.putString("CATEGORY_ID", subCatName);
+        args.putInt("ARTICLE_POSITION", 0);
+        newFragment.setArguments(args);
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.fragment_container, newFragment);
+        transaction.addToBackStack("article");
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        // Commit the transaction
+        transaction.commit();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void onCategorySelected(int name) {
+        LearningPathFragment newLearning = new LearningPathFragment();
+        Bundle args = new Bundle();
+        args.putInt("CATEGORY", name);
+        newLearning.setArguments(args);
+        fm.popBackStackImmediate(0, POP_BACK_STACK_INCLUSIVE);
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.fragment_container, newLearning);
+        transaction.addToBackStack("learningPath");
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        setAppBarName(getString(name));
+        transaction.commit();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -136,7 +154,7 @@ public class MainActivity
         args.putString(ListArticlesFragment.CATEGORYNAME_VALUE, name);
         args.putString("TYPE_VALUE", mode);
         listArticlesFragment.setArguments(args);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.fragment_container, listArticlesFragment);
         transaction.addToBackStack("listArticles");
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -151,7 +169,7 @@ public class MainActivity
         args.putString(ModeFragment.PASSED_VALUE, name);
         args.putString("TYPE_VALUE", mode);
         listArticlesFragment.setArguments(args);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.fragment_container, listArticlesFragment);
         transaction.addToBackStack("subCategory");
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -182,7 +200,7 @@ public class MainActivity
         Bundle args = new Bundle();
         args.putString(ModeFragment.PASSED_VALUE, name);
         newFragment.setArguments(args);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.fragment_container, newFragment);
         transaction.addToBackStack("article");
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -199,7 +217,7 @@ public class MainActivity
         args.putString("CATEGORY_ID", categoryName);
         args.putInt("ARTICLE_POSITION", position);
         newFragment.setArguments(args);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.fragment_container, newFragment);
         transaction.addToBackStack("article");
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -241,7 +259,7 @@ public class MainActivity
     @Override
     public void onBackPressed() {
 
-        int count = getSupportFragmentManager().getBackStackEntryCount();
+        int count = fm.getBackStackEntryCount();
         //Log.i("count:", count+"");
 
         if (count == 0 ) {
@@ -254,9 +272,10 @@ public class MainActivity
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             if(firstFragment.isVisible()) {
                 setAppBarName(getResources().getString(R.string.app_name));
+                getSupportActionBar().hide();
             }
         } else {
-            getSupportFragmentManager().popBackStack();
+            fm.popBackStack();
         }
 
     }
@@ -314,7 +333,7 @@ public class MainActivity
     }
 
     private void replaceFragment(Fragment newFragment, String tag) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction ft = fm.beginTransaction();
 
         //ft.addToBackStack(tag);
         setAppBarName(tag);

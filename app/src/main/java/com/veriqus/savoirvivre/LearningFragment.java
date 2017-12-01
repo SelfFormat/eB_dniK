@@ -87,14 +87,16 @@ public class LearningFragment extends Fragment {
         List<Category> subCat_7 = new ArrayList<>();
         subCat_7.add(0, new Category("1", getContext().getString(R.string.subCat7_1_punctuation), R.drawable.icon_punctuation));
 
-        List<Category> categories = new ArrayList<>();
-        categories.add(0, new Category("1", getContext().getString(R.string.category_1), subCat_1));
-        categories.add(1, new Category("2", getContext().getString(R.string.category_2), subCat_2));
-        categories.add(2, new Category("3", getContext().getString(R.string.category_3), subCat_3));
-        categories.add(3, new Category("4", getContext().getString(R.string.category_4), subCat_4));
-        categories.add(4, new Category("5", getContext().getString(R.string.category_5), subCat_5));
-        categories.add(5, new Category("6", getContext().getString(R.string.category_6), subCat_6));
-        categories.add(4, new Category("7", getContext().getString(R.string.category_7), subCat_7));
+
+        final List<Category> categories = new ArrayList<>();
+        categories.add(0, new Category("1", getContext().getString(R.string.category_1), subCat_1, R.string.category_1));
+        categories.add(1, new Category("2", getContext().getString(R.string.category_2), subCat_2, R.string.category_2));
+        categories.add(2, new Category("3", getContext().getString(R.string.category_3), subCat_3, R.string.category_3));
+        categories.add(3, new Category("5", getContext().getString(R.string.category_5), subCat_5, R.string.category_5));
+        categories.add(4, new Category("6", getContext().getString(R.string.category_6), subCat_6, R.string.category_6));
+        categories.add(5, new Category("4", getContext().getString(R.string.category_4), subCat_4, R.string.category_4));
+        categories.add(6, new Category("7", getContext().getString(R.string.category_7), subCat_7, R.string.category_7));
+
 
 
         Spinner spinner = (Spinner) rootView.findViewById(R.id.categoryListSpinner);

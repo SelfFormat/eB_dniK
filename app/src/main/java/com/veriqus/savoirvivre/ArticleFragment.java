@@ -62,20 +62,20 @@ public class ArticleFragment extends Fragment {
         swipeLay = rootView.findViewById(R.id.swipeLay);
         swipeLay.setOnTouchListener(new OnSwipeTouchListener(getContext()){
             public void onSwipeRight() {
-                //Toast.makeText(getContext(), "right", Toast.LENGTH_SHORT).show();
-                if (position < quotesTitles.size() - 1) {
-                    position++;
-                } else {
-                    position = 0;
-                }
-                loadArticle();
-            }
-            public void onSwipeLeft() {
                 //Toast.makeText(getContext(), "left", Toast.LENGTH_SHORT).show();
                 if (position > 0) {
                     position--;
                 } else {
                     position = quotesTitles.size() - 1;
+                }
+                loadArticle();
+            }
+            public void onSwipeLeft() {
+                //Toast.makeText(getContext(), "right", Toast.LENGTH_SHORT).show();
+                if (position < quotesTitles.size() - 1) {
+                    position++;
+                } else {
+                    position = 0;
                 }
                 loadArticle();
             }
@@ -83,20 +83,20 @@ public class ArticleFragment extends Fragment {
         swipeCard = (ViewGroup) rootView.findViewById(R.id.cardViewSwipe);
         swipeCard.setOnTouchListener(new OnSwipeTouchListener(getContext()){
             public void onSwipeRight() {
-                //Toast.makeText(getContext(), "right", Toast.LENGTH_SHORT).show();
-                if (position < quotesTitles.size() - 1) {
-                    position++;
-                } else {
-                    position = 0;
-                }
-                loadArticle();
-            }
-            public void onSwipeLeft() {
                 //Toast.makeText(getContext(), "left", Toast.LENGTH_SHORT).show();
                 if (position > 0) {
                     position--;
                 } else {
                     position = quotesTitles.size() - 1;
+                }
+                loadArticle();
+            }
+            public void onSwipeLeft() {
+                //Toast.makeText(getContext(), "right", Toast.LENGTH_SHORT).show();
+                if (position < quotesTitles.size() - 1) {
+                    position++;
+                } else {
+                    position = 0;
                 }
                 loadArticle();
             }

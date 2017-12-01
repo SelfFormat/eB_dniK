@@ -25,6 +25,7 @@ public class CategoryFragment extends Fragment {
     public CategoryFragment(){}
 
     OnHeadlineSelectedListener mCallback;
+    OnCategorySelectedListern cCallback;
     View rootView;
     public static final String NO_MORE_DEMO = "noMoreDemo";
 
@@ -32,6 +33,12 @@ public class CategoryFragment extends Fragment {
     // Container Activity must implement this interface
     public interface OnHeadlineSelectedListener {
         public void onSubCategorySelected(String name, String mode);
+
+    }
+
+    // Container Activity must implement this interface
+    public interface OnCategorySelectedListern {
+        public void onCategorySelected(int name);
 
     }
 
@@ -121,22 +128,29 @@ public class CategoryFragment extends Fragment {
         List<Category> subCat_7 = new ArrayList<>();
         subCat_7.add(0, new Category("1", getContext().getString(R.string.subCat7_1_punctuation), R.drawable.icon_punctuation));
 
-        List<Category> categories = new ArrayList<>();
-        categories.add(0, new Category("1", getContext().getString(R.string.category_1), subCat_1));
-        categories.add(1, new Category("2", getContext().getString(R.string.category_2), subCat_2));
-        categories.add(2, new Category("3", getContext().getString(R.string.category_3), subCat_3));
-        categories.add(3, new Category("5", getContext().getString(R.string.category_5), subCat_5));
-        categories.add(4, new Category("6", getContext().getString(R.string.category_6), subCat_6));
-        categories.add(5, new Category("4", getContext().getString(R.string.category_4), subCat_4));
-        categories.add(6, new Category("7", getContext().getString(R.string.category_7), subCat_7));
+        final List<Category> categories = new ArrayList<>();
+        categories.add(0, new Category("1", getContext().getString(R.string.category_1), subCat_1, R.string.category_1));
+        categories.add(1, new Category("2", getContext().getString(R.string.category_2), subCat_2, R.string.category_2));
+        categories.add(2, new Category("3", getContext().getString(R.string.category_3), subCat_3, R.string.category_3));
+        categories.add(3, new Category("5", getContext().getString(R.string.category_5), subCat_5, R.string.category_5));
+        categories.add(4, new Category("6", getContext().getString(R.string.category_6), subCat_6, R.string.category_6));
+        categories.add(5, new Category("4", getContext().getString(R.string.category_4), subCat_4, R.string.category_4));
+        categories.add(6, new Category("7", getContext().getString(R.string.category_7), subCat_7, R.string.category_7));
 
         for (int i = 0; i < categories.size(); i++) {
-
+            final String category = categories.get(i).getName();
             TextView categoryText = new TextView(getContext());
-            categoryText.setText(categories.get(i).getName());
+            final int catID = categories.get(i).getStringID();
+            categoryText.setText(category);
             categoryText.setTextSize(px20);
             categoryText.setTextColor(Color.BLACK);
             categoryText.setTypeface(null, Typeface.NORMAL);
+            categoryText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    cCallback.onCategorySelected(catID);
+                }
+            });
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             params.setMargins(dip15, dip15, dip15, 10);
 
@@ -158,7 +172,6 @@ public class CategoryFragment extends Fragment {
                 ImageView subCategoryImage = new ImageView(getContext());
                 LinearLayout.LayoutParams paramsImg = new LinearLayout.LayoutParams(dip125, dip125);
                 subCategoryImage.setImageResource(categories.get(i).getSubCategories().get(j).getDrawable());
-
 
                 final String subCategoryName = categories.get(i).getSubCategories().get(j).getName();
 
@@ -198,6 +211,7 @@ public class CategoryFragment extends Fragment {
         // the callback interface. If not, it throws an exception
         try {
             mCallback = (OnHeadlineSelectedListener) activity;
+            cCallback = (OnCategorySelectedListern) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnHeadlineSelectedListener");

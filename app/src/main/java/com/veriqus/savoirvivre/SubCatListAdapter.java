@@ -15,7 +15,24 @@ import java.util.List;
  */
 
 
-public class SettingsListAdapter extends RecyclerView.Adapter<SettingsListAdapter.ViewHolder> {
+public class SubCatListAdapter extends RecyclerView.Adapter<SubCatListAdapter.ViewHolder> {
+
+    OnLearningSubSelected mCallback;
+
+    // Container Activity must implement this interface
+    public interface OnLearningSubSelected {
+        public void onLearningSubSelected(String subCatName);
+    }
+    // Define listener member variable
+    private OnItemClickListener listener;
+    // Define the listener interface
+    public interface OnItemClickListener {
+        void onItemClick(View itemView, int position);
+    }
+    // Define the method that allows the parent activity or fragment to define the listener
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         // Your holder should contain a member variable
@@ -25,26 +42,39 @@ public class SettingsListAdapter extends RecyclerView.Adapter<SettingsListAdapte
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
             // Stores the itemView in a public final member variable that can be used
             // to access the context from any ViewHolder instance.
             super(itemView);
 
-            nameTextView = (TextView) itemView.findViewById(R.id.settings_name);
-            imageView = (ImageView) itemView.findViewById(R.id.settings_icon);
+            this.nameTextView = (TextView) itemView.findViewById(R.id.subclass_name);
+            this.imageView = (ImageView) itemView.findViewById(R.id.subclass_img);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Triggers click upwards to the adapter on click
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(itemView, position);
+                        }
+                    }
+                }
+            });
         }
     }
 
     // Store a member variable for the contacts
-    private List<SettingPOJO> mSettings;
+    private List<SubClass> mSubClasses;
     // Store the context for easy access
     private Context mContext;
 
     // Pass in the contact array into the constructor
-    public SettingsListAdapter(Context context, List<SettingPOJO> settings) {
-        mSettings = settings;
+    public SubCatListAdapter(Context context, List<SubClass> subClasses) {
+        mSubClasses = subClasses;
         mContext = context;
     }
+
     // Easy access to the context object in the recyclerview
     private Context getContext() {
         return mContext;
@@ -52,12 +82,12 @@ public class SettingsListAdapter extends RecyclerView.Adapter<SettingsListAdapte
 
 
     @Override
-    public SettingsListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SubCatListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
-        View settingView = inflater.inflate(R.layout.single_settings_item, parent, false);
+        View settingView = inflater.inflate(R.layout.single_subcat, parent, false);
 
         // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(settingView);
@@ -66,9 +96,9 @@ public class SettingsListAdapter extends RecyclerView.Adapter<SettingsListAdapte
 
     // Involves populating data into the item through holder
     @Override
-    public void onBindViewHolder(SettingsListAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(SubCatListAdapter.ViewHolder viewHolder, int position) {
         // Get the data model based on position
-        SettingPOJO singleSetting = mSettings.get(position);
+        SubClass singleSetting = mSubClasses.get(position);
 
         // Set item views based on your views and data model
         TextView textView = viewHolder.nameTextView;
@@ -80,6 +110,7 @@ public class SettingsListAdapter extends RecyclerView.Adapter<SettingsListAdapte
     // Returns the total count of items in the list
     @Override
     public int getItemCount() {
-        return mSettings.size();
+        return mSubClasses.size();
     }
+
 }

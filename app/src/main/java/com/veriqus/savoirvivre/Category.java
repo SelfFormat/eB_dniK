@@ -10,14 +10,16 @@ import java.util.ListIterator;
 public class Category {
 
     private String id;
+    private int stringID;
     private String name;
     private List<Category> subCategories;
     private int drawable;
 
-    public Category(String id, String name, List<Category> subCategories) {
+    public Category(String id, String name, List<Category> subCategories, int stringID) {
         this.id = id;
         this.name = name;
         this.subCategories = subCategories;
+        this.stringID = stringID;
     }
 
     public Category(String id, String name, int drawable) {
@@ -148,6 +150,13 @@ public class Category {
 
     }
 
+    public int getStringID() {
+        return stringID;
+    }
+
+    public void setStringID(int stringID) {
+        this.stringID = stringID;
+    }
 
     public String getId() {
         return id;

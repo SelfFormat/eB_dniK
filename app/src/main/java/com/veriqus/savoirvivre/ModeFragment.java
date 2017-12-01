@@ -51,36 +51,36 @@ public class ModeFragment extends Fragment {
         TextView learnCat = (TextView) rootView.findViewById(R.id.textView2);
         learnCat.setText(categoryName);
 
-        View goodHabit = rootView.findViewById(R.id.goodHabitLinear);
-
-        View badHabit = rootView.findViewById(R.id.badHabitLinear);
-
-        View showAll = rootView.findViewById(R.id.showAllLinear);
-
-        learn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCallback.onModeSelected(categoryName, true);
-            }
-        });
-        goodHabit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCallback.onModeSelected(categoryName, "good");
-            }
-        });
-        badHabit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCallback.onModeSelected(categoryName, "bad");
-            }
-        });
-        showAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCallback.onModeSelected(categoryName, "all");
-            }
-        });
+//        View goodHabit = rootView.findViewById(R.id.goodHabitLinear);
+//
+//        View badHabit = rootView.findViewById(R.id.badHabitLinear);
+//
+//        View showAll = rootView.findViewById(R.id.showAllLinear);
+//
+//        learn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mCallback.onModeSelected(categoryName, true);
+//            }
+//        });
+//        goodHabit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mCallback.onModeSelected(categoryName, "good");
+//            }
+//        });
+//        badHabit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mCallback.onModeSelected(categoryName, "bad");
+//            }
+//        });
+//        showAll.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mCallback.onModeSelected(categoryName, "all");
+//            }
+//        });
 
         return rootView;
     }
