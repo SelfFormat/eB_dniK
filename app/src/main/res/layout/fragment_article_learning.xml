@@ -211,7 +211,7 @@
         android:textAlignment="center"
         android:layout_height="wrap_content"
         android:text="START QUIZ"
-        android:textColor="@color/colorGood"
+        android:textColor="#FFF"
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"

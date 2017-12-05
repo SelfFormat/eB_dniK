@@ -29,6 +29,7 @@ public class MainActivity
                     ListArticlesFragment.OnArticleSelectedListener,
                     ModeFragment.onModeSelectedListener,
                     SubCatListAdapter.OnLearningSubSelected,
+                    ArticleSubcategoryFragment.OnQuizSelectedListener,
                     LearningFragment.OnHeadlineSelectedListener{
 
     DatabaseAccess databaseAccess;
@@ -118,7 +119,7 @@ public class MainActivity
 
     @Override
     public void onLearningSubSelected(String subCatName) {
-        ArticleFragment newFragment = new ArticleFragment();
+        ArticleSubcategoryFragment newFragment = new ArticleSubcategoryFragment();
         Bundle args = new Bundle();
         args.putString("CATEGORY_ID", subCatName);
         args.putInt("ARTICLE_POSITION", 0);
@@ -126,6 +127,21 @@ public class MainActivity
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.fragment_container, newFragment);
         transaction.addToBackStack("article");
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        // Commit the transaction
+        transaction.commit();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void onQuizSelected(String quizName) {
+        QuizFragment newFragment = new QuizFragment();
+        Bundle args = new Bundle();
+        args.putString("CATEGORY_ID", quizName);
+        newFragment.setArguments(args);
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.fragment_container, newFragment);
+        transaction.addToBackStack("quiz");
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         // Commit the transaction
         transaction.commit();
@@ -294,6 +310,11 @@ public class MainActivity
         return list;
     }
 
+    public List<String> getQuizQuotes(String subCategory, String question_or_answer) {
+        List<String> list = databaseAccess.getQuizQuotes(subCategory, question_or_answer);
+        return list;
+    }
+
 
     public List<String> getSaved(String title_or_content) {
         List<String> list = databaseAccess.getSavedArticles(title_or_content);
@@ -325,6 +346,11 @@ public class MainActivity
 
     public byte[] getImageByte(String name){
         byte[] image = databaseAccess.getImage(name);
+        return image;
+    }
+
+    public byte[] getQuizImageByte(String name){
+        byte[] image = databaseAccess.getQuizImage(name);
         return image;
     }
 

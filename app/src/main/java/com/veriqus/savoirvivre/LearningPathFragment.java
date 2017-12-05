@@ -28,11 +28,9 @@ public class LearningPathFragment extends Fragment {
     boolean isDone;
     final List<SubClass> subClassList = new ArrayList<>();
 
-
     public LearningPathFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

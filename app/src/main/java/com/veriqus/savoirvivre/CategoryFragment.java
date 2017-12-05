@@ -39,7 +39,6 @@ public class CategoryFragment extends Fragment {
     // Container Activity must implement this interface
     public interface OnCategorySelectedListern {
         public void onCategorySelected(int name);
-
     }
 
     @Override

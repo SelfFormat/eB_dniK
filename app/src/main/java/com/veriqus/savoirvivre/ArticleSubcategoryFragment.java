@@ -1,13 +1,12 @@
 package com.veriqus.savoirvivre;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,19 +17,13 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
-public class ArticleFragment extends Fragment {
-
-    public ArticleFragment() {
-        // Required empty public constructor
-    }
+public class ArticleSubcategoryFragment extends Fragment {
 
     View rootView;
-    static String ARTICLE_NAME;
     String articleName;
     String articleContent;
     HashMap<String, String> savedList;
@@ -49,23 +42,34 @@ public class ArticleFragment extends Fragment {
     TextView progressTextView;
     int articleListLenght;
     SharedPreferences.Editor edit;
-    public static final String ca1 = "cat1";
+    public static String ca1;
+    OnQuizSelectedListener mCallback;
+
+    public interface OnQuizSelectedListener {
+        public void onQuizSelected(String quizCategory);
+    }
+
+
+    public ArticleSubcategoryFragment() {
+        // Required empty public constructor
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_article, container, false);
+        rootView = inflater.inflate(R.layout.fragment_article_learning, container, false);
         setHasOptionsMenu(true);
 
         final SharedPreferences cat1pref = getContext().getSharedPreferences(ca1, 0);
 
         //pixel to dp conversion
-        Resources r = getResources();
-        dip16toPx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, r.getDisplayMetrics());
+        //Resources r = getResources();
+        //dip16toPx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, r.getDisplayMetrics());
 
         Bundle bundle = getArguments();
         String categoryID = bundle.getString("CATEGORY_ID");
         Log.i("CatID", categoryID);
+        ca1 = categoryID;
         position = bundle.getInt("ARTICLE_POSITION");
 
         swipeLay = rootView.findViewById(R.id.swipeLay);
@@ -75,10 +79,9 @@ public class ArticleFragment extends Fragment {
                 if (position > 0) {
                     position--;
                 } else {
-                    position = quotesTitles.size() - 1;
                 }
                 loadArticle();
-//                updateProgressViews();
+                updateProgressViews();
 
             }
             public void onSwipeLeft() {
@@ -90,10 +93,9 @@ public class ArticleFragment extends Fragment {
                     edit.putBoolean(ca1, true);
                     edit.apply();
                     edit.commit();
-                    position = 0;
                 }
                 loadArticle();
-                //updateProgressViews();
+                updateProgressViews();
             }
         });
         swipeCard = (ViewGroup) rootView.findViewById(R.id.cardViewSwipe);
@@ -103,10 +105,9 @@ public class ArticleFragment extends Fragment {
                 if (position > 0) {
                     position--;
                 } else {
-                    position = quotesTitles.size() - 1;
                 }
                 loadArticle();
-                //updateProgressViews();
+                updateProgressViews();
             }
             public void onSwipeLeft() {
                 //Toast.makeText(getContext(), "right", Toast.LENGTH_SHORT).show();
@@ -117,39 +118,25 @@ public class ArticleFragment extends Fragment {
                     edit.putBoolean(ca1, true);
                     edit.apply();
                     edit.commit();
-                    position = 0;
-                    position = 0;
                 }
                 loadArticle();
-                //updateProgressViews();
+                updateProgressViews();
             }
         });
 
-        if (categoryID.equals("SAVED")) {
-            HashMap<String, String> savedList = ((MainActivity) getActivity()).loadMap();
 
-            quotesTitles = new ArrayList<>();
-            quotesContents = new ArrayList<>();
-
-            for (String key : savedList.keySet()) {
-                int num = +0;
-                quotesContents.add(num, ((MainActivity) getActivity()).getArticleContentbyID(key));
-                quotesTitles.add(num, ((MainActivity) getActivity()).getArticleTitlebyID(key));
-            }
-        } else {
-            quotesTitles = ((MainActivity) getActivity()).getArticleList(categoryID, "title");
-            quotesContents = ((MainActivity) getActivity()).getArticleList(categoryID, "content");
-        }
+        quotesTitles = ((MainActivity) getActivity()).getArticleList(categoryID, "title");
+        quotesContents = ((MainActivity) getActivity()).getArticleList(categoryID, "content");
 
         articleListLenght = quotesTitles.size();
 
         articleContentTextView = (TextView) rootView.findViewById(R.id.articleContent);
         articleTitleText = (TextView) rootView.findViewById(R.id.articleTitle);
-//        progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
-//        progressTextView = (TextView) rootView.findViewById(R.id.progress_textView);
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
+        progressTextView = (TextView) rootView.findViewById(R.id.progress_textView);
 
         loadArticle();
-        //updateProgressViews();
+        updateProgressViews();
 
         saveIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,7 +144,6 @@ public class ArticleFragment extends Fragment {
                 save();
             }
         });
-
 
         final ImageView share = (ImageView) rootView.findViewById(R.id.shareArticleButton);
         share.setOnClickListener(new View.OnClickListener() {
@@ -168,7 +154,6 @@ public class ArticleFragment extends Fragment {
             }
         });
 
-
         final ImageView previous = (ImageView) rootView.findViewById(R.id.previousArticleButton);
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,10 +161,9 @@ public class ArticleFragment extends Fragment {
                 if (position > 0) {
                     position--;
                 } else {
-                    position = quotesTitles.size() - 1;
                 }
                 loadArticle();
-                //updateProgressViews();
+                updateProgressViews();
             }
         });
 
@@ -190,10 +174,9 @@ public class ArticleFragment extends Fragment {
                 if (position < quotesTitles.size() - 1) {
                     position++;
                 } else {
-                    position = 0;
                 }
                 loadArticle();
-                //updateProgressViews();
+                updateProgressViews();
             }
         });
 
@@ -268,24 +251,37 @@ public class ArticleFragment extends Fragment {
         } else {
             saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_love_black));
         }
-
     }
-//
-//    private void updateProgressViews() {
-//        int progressposition = position + 1;
-//        progressBar.setMax(articleListLenght);
-//        progressBar.setProgress(progressposition);
-//        progressTextView.setText(progressposition + " / " + articleListLenght);
-//        startQuiz = (TextView) rootView.findViewById(R.id.start_quiz_button);
-//        startQuiz.setVisibility(View.GONE);
-//        if(progressBar.getProgress() == progressBar.getMax()) {
-//            startQuiz.setVisibility(View.VISIBLE);
-//            startQuiz.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Toast.makeText(getContext(), "nothing here yet", Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//        }
-//    }
+
+    private void updateProgressViews() {
+        int progressposition = position + 1;
+        progressBar.setMax(articleListLenght);
+        progressBar.setProgress(progressposition);
+        progressTextView.setText(progressposition + " / " + articleListLenght);
+        startQuiz = (TextView) rootView.findViewById(R.id.start_quiz_button);
+        startQuiz.setVisibility(View.GONE);
+        if(progressBar.getProgress() == progressBar.getMax()) {
+            startQuiz.setVisibility(View.VISIBLE);
+            startQuiz.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mCallback.onQuizSelected(ca1);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (OnQuizSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
+    }
 }

@@ -68,6 +68,20 @@ public class DatabaseAccess {
         return list;
     }
 
+    public List<String> getQuizQuotes(String subCategory, String question_or_answer) {
+        List<String> list = new ArrayList<>();
+        Cursor cursor = database.rawQuery("SELECT " + question_or_answer + "_" + getLang() + " FROM quests WHERE sub_category = \"" + subCategory + "\"", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            list.add(cursor.getString(0));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return list;
+    }
+
+
+
     //gets list of all elements in selected row based on type ("good" or "bad" habits)
     public List<String> getQuotes(String row, String title_or_content, String goodOrBad) {
 
@@ -84,7 +98,6 @@ public class DatabaseAccess {
 
     //return list of saved articles
     public List<String> getSavedArticles(String title_or_content) {
-
         List<String> list = new ArrayList<>();
         Cursor cursor = database.rawQuery("SELECT " + title_or_content + "_" + getLang() + " FROM entry WHERE saved = 1", null);
         cursor.moveToFirst();
@@ -166,6 +179,19 @@ public class DatabaseAccess {
     public byte[] getImage(String name) {
         byte[] data = null;
         Cursor cursor = database.rawQuery("SELECT image FROM entry WHERE title_" + getLang() + "= " + "\"" + name + "\"", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            data = cursor.getBlob(0);
+            break;  // Assumption: name is unique
+        }
+        cursor.close();
+        return data;
+    }
+
+
+    public byte[] getQuizImage(String name) {
+        byte[] data = null;
+        Cursor cursor = database.rawQuery("SELECT image FROM quests WHERE question_" + getLang() + "= " + "\"" + name + "\"", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             data = cursor.getBlob(0);
