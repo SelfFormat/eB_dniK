@@ -98,13 +98,15 @@ public class SubCatListAdapter extends RecyclerView.Adapter<SubCatListAdapter.Vi
     @Override
     public void onBindViewHolder(SubCatListAdapter.ViewHolder viewHolder, int position) {
         // Get the data model based on position
-        SubClass singleSetting = mSubClasses.get(position);
+        SubClass singleSub = mSubClasses.get(position);
 
         // Set item views based on your views and data model
         TextView textView = viewHolder.nameTextView;
-        textView.setText(singleSetting.getName());
+        textView.setText(singleSub.getName());
         ImageView imageView = viewHolder.imageView;
-        imageView.setImageDrawable(getContext().getResources().getDrawable(singleSetting.getDrawable()));
+        if(singleSub.isDone()) {
+            imageView.setVisibility(View.VISIBLE);
+        }
     }
 
     // Returns the total count of items in the list

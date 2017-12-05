@@ -86,7 +86,7 @@ public class TipFragment extends Fragment {
                     String ID = ((MainActivity) getActivity()).getArticleID(articleName);
                     savedList.put(ID, ID);
                     ((MainActivity) getActivity()).saveMap(savedList);
-                    saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_black_36dp));
+                    saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_love_black));
                 } else {
                     saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_black_36dp));
                     String ID = ((MainActivity) getActivity()).getArticleID(articleName);
@@ -164,7 +164,7 @@ public class TipFragment extends Fragment {
         if (!isSaved) {
             saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_black_36dp));
         } else {
-            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_black_36dp));
+            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_love_black));
         }
     }
 
