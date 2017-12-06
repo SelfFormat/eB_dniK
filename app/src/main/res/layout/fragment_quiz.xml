@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/next_question_button"
         android:orientation="vertical">
 
         <LinearLayout
@@ -17,7 +18,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <ProgressBar
-                android:id="@+id/progress_bar"
+                android:id="@+id/progress_bar_quiz"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -29,7 +30,7 @@
                 android:max="10"/>
 
             <TextView
-                android:id="@+id/progress_textView"
+                android:id="@+id/progress_textView_quiz"
                 android:layout_gravity="center"
                 android:padding="16dp"
                 android:textAlignment="center"
@@ -174,5 +175,24 @@
         </android.support.v7.widget.CardView>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/next_question_button"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:textAlignment="center"
+        android:layout_height="wrap_content"
+        android:text="NEXT QUESTION"
+        android:textColor="#FFF"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:textSize="18dp"
+        android:visibility="visible"
+        android:textAllCaps="true"
+        android:padding="16dp"
+        android:background="@drawable/sub_learning_bg_good"/>
 
 </RelativeLayout>

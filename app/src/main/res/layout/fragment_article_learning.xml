@@ -216,7 +216,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:textSize="18dp"
-        android:visibility="visible"
+        android:visibility="gone"
         android:textAllCaps="true"
         android:padding="16dp"
         android:background="@drawable/sub_learning_bg_good"/>

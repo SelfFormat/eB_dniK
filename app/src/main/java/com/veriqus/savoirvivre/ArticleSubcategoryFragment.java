@@ -69,8 +69,9 @@ public class ArticleSubcategoryFragment extends Fragment {
         Bundle bundle = getArguments();
         String categoryID = bundle.getString("CATEGORY_ID");
         Log.i("CatID", categoryID);
+        categoryID = "subCat1_2_mail";
         ca1 = categoryID;
-        position = bundle.getInt("ARTICLE_POSITION");
+        //position = bundle.getInt("ARTICLE_POSITION");
 
         swipeLay = rootView.findViewById(R.id.swipeLay);
         swipeLay.setOnTouchListener(new OnSwipeTouchListener(getContext()){
