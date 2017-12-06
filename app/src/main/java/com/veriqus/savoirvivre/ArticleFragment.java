@@ -138,6 +138,9 @@ public class ArticleFragment extends Fragment {
             }
         } else {
             quotesTitles = ((MainActivity) getActivity()).getArticleList(categoryID, "title");
+            for (int i = 0; i < quotesTitles.size() ; i++) {
+                Log.i("i" + i, quotesTitles.get(i) + "");
+            }
             quotesContents = ((MainActivity) getActivity()).getArticleList(categoryID, "content");
         }
 

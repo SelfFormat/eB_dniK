@@ -37,6 +37,7 @@ public class MainActivity
     SettingsFragment settingsFragment = new SettingsFragment();
     SavedArticlesFragment savedArticlesFragment = new SavedArticlesFragment();
     TipFragment tipFragment = new TipFragment();
+    QuizFragment quizFragment = new QuizFragment();
     ListArticlesFragment listArticlesFragment = new ListArticlesFragment();
     FragmentManager fm = getSupportFragmentManager();
 
@@ -135,12 +136,12 @@ public class MainActivity
 
     @Override
     public void onQuizSelected(String quizName) {
-        QuizFragment newFragment = new QuizFragment();
+//        QuizFragment newFragment = new QuizFragment();
         Bundle args = new Bundle();
         args.putString("CATEGORY_ID", quizName);
-        newFragment.setArguments(args);
+        quizFragment.setArguments(args);
         FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.fragment_container, newFragment);
+        transaction.replace(R.id.fragment_container, quizFragment);
         transaction.addToBackStack("quiz");
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         // Commit the transaction
@@ -302,6 +303,11 @@ public class MainActivity
 
     public List<String> getArticleList(String row, String title_or_content) {
         List<String> list = databaseAccess.getQuotes(row, title_or_content );
+        return list;
+    }
+
+    public List<String> getArticleList2(String row, String title_or_content, String entry_or_quests) {
+        List<String> list = databaseAccess.getQuotes2(row, title_or_content, entry_or_quests);
         return list;
     }
 

@@ -16,6 +16,7 @@ public class DatabaseAccess {
     private SQLiteOpenHelper openHelper;
 
     private SQLiteDatabase database;
+    private SQLiteDatabase databaseQuiz;
     private static DatabaseAccess instance;
 
 
@@ -33,6 +34,7 @@ public class DatabaseAccess {
 
     public void open() {
         this.database = openHelper.getWritableDatabase();
+        this.databaseQuiz = openHelper.getReadableDatabase();
         //database.execSQL("ALTER TABLE entry ADD COLUMN savedArticle INTEGER");
     }
 
@@ -68,9 +70,22 @@ public class DatabaseAccess {
         return list;
     }
 
+    public List<String> getQuotes2(String row, String title_or_content, String entry_or_quests) {
+
+        List<String> list = new ArrayList<>();
+        Cursor cursor = database.rawQuery("SELECT " + title_or_content + "_" + getLang() + " FROM " + entry_or_quests + " WHERE category = \"" + row + "\"", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            list.add(cursor.getString(0));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return list;
+    }
+
     public List<String> getQuizQuotes(String subCategory, String question_or_answer) {
         List<String> list = new ArrayList<>();
-        Cursor cursor = database.rawQuery("SELECT " + question_or_answer + "_" + getLang() + " FROM quests WHERE sub_category = \"" + subCategory + "\"", null);
+        Cursor cursor = databaseQuiz.rawQuery("SELECT " + question_or_answer + "_" + getLang() + " FROM quests WHERE sub_category = \"" + subCategory + "\"", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             list.add(cursor.getString(0));
