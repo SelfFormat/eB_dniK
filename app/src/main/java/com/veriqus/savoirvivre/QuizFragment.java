@@ -2,6 +2,7 @@ package com.veriqus.savoirvivre;
 
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -35,13 +36,17 @@ public class QuizFragment extends Fragment {
     List<String> quotesAnswers2;
     List<String> quotesAnswers3;
     List<String> quizAnswers;
-    TextView answer4text;
     TextView answer1text;
     TextView answer2text;
     TextView answer3text;
+    TextView answer4text;
     TextView questionTextView;
     TextView nextQuestion;
     ProgressBar progressBar;
+    ImageView okIcon1;
+    ImageView okIcon2;
+    ImageView okIcon3;
+    ImageView okIcon4;
     TextView progressTextView;
     int quizListLenght;
     SharedPreferences.Editor edit;
@@ -81,6 +86,13 @@ public class QuizFragment extends Fragment {
         answer3text = (TextView) rootView.findViewById(R.id.answer3);
         answer4text = (TextView) rootView.findViewById(R.id.answer4);
 
+
+        okIcon4 = (ImageView) rootView.findViewById(R.id.okIcon4);
+        okIcon3 = (ImageView) rootView.findViewById(R.id.okIcon3);
+        okIcon2 = (ImageView) rootView.findViewById(R.id.okIcon2);
+        okIcon1 = (ImageView) rootView.findViewById(R.id.okIcon1);
+
+
         progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar_quiz);
         progressTextView = (TextView) rootView.findViewById(R.id.progress_textView_quiz);
 
@@ -97,12 +109,10 @@ public class QuizFragment extends Fragment {
 
         question = quotesQuestions.get(position);
         questionTextView.setText(question);
-
         goodAnswer = quotesGoodAnswers.get(position);
 
         prepareSingleQuizAnswers();
         setImageData();
-
         setAnswerTextViewsQuantity();
         setAnswersToVisibleTextViews();
     }
@@ -171,11 +181,16 @@ public class QuizFragment extends Fragment {
             public void onClick(View v) {
                 if(goodAnswer.equals(answer1text.getText())) {
                     answer1text.setBackgroundResource(R.drawable.sub_learning_bg_good_outline);
+                    answer1text.setTextColor(getResources().getColor(R.color.colorGood));
+                    okIcon1.setImageResource(R.drawable.success_green);
                     nextQuestionButton();
                 } else {
                     answer1text.setBackgroundResource(R.drawable.sub_learning_bg_bad);
-                }
+                    answer1text.setTextColor(getResources().getColor(R.color.colorBad));
+                    okIcon1.setImageResource(R.drawable.bad_answer_icon);
 
+                }
+                okIcon1.setVisibility(View.VISIBLE);
             }
         });
         answer2text.setOnClickListener(new View.OnClickListener() {
@@ -183,11 +198,17 @@ public class QuizFragment extends Fragment {
             public void onClick(View v) {
                 if(goodAnswer.equals(answer2text.getText())){
                     answer2text.setBackgroundResource(R.drawable.sub_learning_bg_good_outline);
+                    answer2text.setTextColor(getResources().getColor(R.color.colorGood));
+                    okIcon2.setImageResource(R.drawable.success_green);
                     nextQuestionButton();
                 }
                 else {
                     answer2text.setBackgroundResource(R.drawable.sub_learning_bg_bad);
+                    answer2text.setTextColor(getResources().getColor(R.color.colorBad));
+                    okIcon2.setImageResource(R.drawable.bad_answer_icon);
+
                 }
+                okIcon2.setVisibility(View.VISIBLE);
             }
         });
         if(answer2.isEmpty()){
@@ -200,11 +221,19 @@ public class QuizFragment extends Fragment {
                 public void onClick(View v) {
                     if(goodAnswer.equals(answer3text.getText())){
                         answer3text.setBackgroundResource(R.drawable.sub_learning_bg_good_outline);
+                        answer3text.setTextColor(getResources().getColor(R.color.colorGood));
+                        okIcon3.setImageResource(R.drawable.success_green);
                         nextQuestionButton();
                     }
                     else {
                         answer3text.setBackgroundResource(R.drawable.sub_learning_bg_bad);
+                        answer3text.setTextColor(getResources().getColor(R.color.colorBad));
+                        okIcon3.setImageResource(R.drawable.bad_answer_icon);
+
+
                     }
+                    okIcon3.setVisibility(View.VISIBLE);
+
                 }
             });
         }
@@ -218,11 +247,20 @@ public class QuizFragment extends Fragment {
                 public void onClick(View v) {
                     if(goodAnswer.equals(answer4text.getText())){
                         answer4text.setBackgroundResource(R.drawable.sub_learning_bg_good_outline);
+                        answer4text.setTextColor(getResources().getColor(R.color.colorGood));
+                        okIcon4.setImageResource(R.drawable.success_green);
                         nextQuestionButton();
+
                     }
                     else {
                         answer4text.setBackgroundResource(R.drawable.sub_learning_bg_bad);
+                        answer4text.setTextColor(getResources().getColor(R.color.colorBad));
+                        okIcon4.setImageResource(R.drawable.bad_answer_icon);
+
+
                     }
+                    okIcon4.setVisibility(View.VISIBLE);
+
                 }
             });
         }
@@ -306,6 +344,16 @@ public class QuizFragment extends Fragment {
         answer2text.setBackgroundResource(R.drawable.sub_learning_bg);
         answer3text.setBackgroundResource(R.drawable.sub_learning_bg);
         answer4text.setBackgroundResource(R.drawable.sub_learning_bg);
+
+        okIcon1.setVisibility(View.GONE);
+        okIcon2.setVisibility(View.GONE);
+        okIcon3.setVisibility(View.GONE);
+        okIcon4.setVisibility(View.GONE);
+
+        answer1text.setTextColor(Color.parseColor("#AAAAAA"));
+        answer2text.setTextColor(Color.parseColor("#AAAAAA"));
+        answer3text.setTextColor(Color.parseColor("#AAAAAA"));
+        answer4text.setTextColor(Color.parseColor("#AAAAAA"));
     }
 
 }

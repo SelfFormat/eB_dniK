@@ -37,7 +37,7 @@ public class MainActivity
     SettingsFragment settingsFragment = new SettingsFragment();
     SavedArticlesFragment savedArticlesFragment = new SavedArticlesFragment();
     TipFragment tipFragment = new TipFragment();
-    QuizFragment quizFragment = new QuizFragment();
+    //QuizFragment quizFragment = new QuizFragment();
     ListArticlesFragment listArticlesFragment = new ListArticlesFragment();
     FragmentManager fm = getSupportFragmentManager();
 
@@ -136,12 +136,12 @@ public class MainActivity
 
     @Override
     public void onQuizSelected(String quizName) {
-//        QuizFragment newFragment = new QuizFragment();
+        QuizFragment newFragment = new QuizFragment();
         Bundle args = new Bundle();
         args.putString("CATEGORY_ID", quizName);
-        quizFragment.setArguments(args);
+        newFragment.setArguments(args);
         FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.fragment_container, quizFragment);
+        transaction.replace(R.id.fragment_container, newFragment);
         transaction.addToBackStack("quiz");
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         // Commit the transaction

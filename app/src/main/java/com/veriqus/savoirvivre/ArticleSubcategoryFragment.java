@@ -69,7 +69,7 @@ public class ArticleSubcategoryFragment extends Fragment {
         Bundle bundle = getArguments();
         String categoryID = bundle.getString("CATEGORY_ID");
         Log.i("CatID", categoryID);
-        categoryID = "subCat1_2_mail";
+        categoryID = "subCat1_1_phone";
         ca1 = categoryID;
         //position = bundle.getInt("ARTICLE_POSITION");
 

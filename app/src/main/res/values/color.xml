@@ -3,7 +3,8 @@
     <color name="colorPrimary">#323232</color>
     <color name="colorPrimaryDark">#252525</color>
     <color name="colorAccent">#ab631c</color>
-    <color name="colorGood">#009688</color>
-    <color name="colorBad">#A54E4E</color>
-
+    <color name="colorGood">#27ae61</color>
+    <color name="colorBad">#c1392b</color>
+    <color name="colorGoodLight">#87cbc5</color>
+    <color name="colorBadLight">#daa9a9</color>
 </resources>
