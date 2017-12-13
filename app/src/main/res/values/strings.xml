@@ -86,5 +86,14 @@
     <string name="category_7">Language</string>
     <string name="no_next">No next article</string>
     <string name="no_previous">No previous article</string>
+    <string name="cat1_textmessages">Composing text messages</string>
+    <string name="cat1_answeringphone">Answering phone</string>
+    <string name="cat1_mailintro">Mail content</string>
+    <string name="cat1_mailsubject">Mail title</string>
+    <string name="cat1_onlineshopping">Online shopping</string>
+    <string name="cat1_esport">eSport</string>
+    <string name="cat1_socialmedia">Social media</string>
+    <string name="cat1_onlinecomments">Online comments</string>
+    <string name="cat1_phonepublic">Using the phone in public places</string>
 
 </resources>

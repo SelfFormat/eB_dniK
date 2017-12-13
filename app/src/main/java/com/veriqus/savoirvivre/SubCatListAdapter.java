@@ -21,7 +21,7 @@ public class SubCatListAdapter extends RecyclerView.Adapter<SubCatListAdapter.Vi
 
     // Container Activity must implement this interface
     public interface OnLearningSubSelected {
-        public void onLearningSubSelected(String subCatName);
+        public void onLearningSubSelected(String subCatName, int category);
     }
     // Define listener member variable
     private OnItemClickListener listener;

@@ -1,6 +1,5 @@
 package com.veriqus.savoirvivre;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,7 +8,6 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 public class DatabaseAccess {
@@ -22,7 +20,6 @@ public class DatabaseAccess {
 
     private DatabaseAccess(Context context) {
         this.openHelper = new DatabaseOpenHelper(context);
-
     }
 
     public static DatabaseAccess getInstance(Context context) {
@@ -35,7 +32,6 @@ public class DatabaseAccess {
     public void open() {
         this.database = openHelper.getWritableDatabase();
         this.databaseQuiz = openHelper.getReadableDatabase();
-        //database.execSQL("ALTER TABLE entry ADD COLUMN savedArticle INTEGER");
     }
 
     public void close() {
@@ -47,12 +43,16 @@ public class DatabaseAccess {
     }
     //return user lang - needed for rest of queries
     private String getLang(){
-        String lang = Locale.getDefault().getLanguage().toLowerCase();
 
-        if (    Locale.getDefault().getLanguage().toLowerCase() != ("pl") &&
-                Locale.getDefault().getLanguage().toLowerCase() != ("eng")) {
-            lang = "en";
-        }
+        //UNCOMMENT IF 2 LANGUAGES ARE AVAILABLE
+
+//        String lang = Locale.getDefault().getLanguage().toLowerCase();
+//        if (    Locale.getDefault().getLanguage().toLowerCase() != ("pl") &&
+//                Locale.getDefault().getLanguage().toLowerCase() != ("eng")) {
+//            lang = "en";
+//        }
+
+        String lang = "pl";
         return lang;
     }
 
@@ -70,51 +70,9 @@ public class DatabaseAccess {
         return list;
     }
 
-    public List<String> getQuotes2(String row, String title_or_content, String entry_or_quests) {
-
-        List<String> list = new ArrayList<>();
-        Cursor cursor = database.rawQuery("SELECT " + title_or_content + "_" + getLang() + " FROM " + entry_or_quests + " WHERE category = \"" + row + "\"", null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            list.add(cursor.getString(0));
-            cursor.moveToNext();
-        }
-        cursor.close();
-        return list;
-    }
-
     public List<String> getQuizQuotes(String subCategory, String question_or_answer) {
         List<String> list = new ArrayList<>();
         Cursor cursor = databaseQuiz.rawQuery("SELECT " + question_or_answer + "_" + getLang() + " FROM quests WHERE sub_category = \"" + subCategory + "\"", null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            list.add(cursor.getString(0));
-            cursor.moveToNext();
-        }
-        cursor.close();
-        return list;
-    }
-
-
-
-    //gets list of all elements in selected row based on type ("good" or "bad" habits)
-    public List<String> getQuotes(String row, String title_or_content, String goodOrBad) {
-
-        List<String> list = new ArrayList<>();
-        Cursor cursor = database.rawQuery("SELECT " + title_or_content + "_" + getLang() + " FROM entry WHERE category = \"" + row + "\" AND type = \"" + goodOrBad + "\"", null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            list.add(cursor.getString(0));
-            cursor.moveToNext();
-        }
-        cursor.close();
-        return list;
-    }
-
-    //return list of saved articles
-    public List<String> getSavedArticles(String title_or_content) {
-        List<String> list = new ArrayList<>();
-        Cursor cursor = database.rawQuery("SELECT " + title_or_content + "_" + getLang() + " FROM entry WHERE saved = 1", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             list.add(cursor.getString(0));
@@ -248,32 +206,16 @@ public class DatabaseAccess {
         return maxID;
     }
 
-    //check if article is saved
-    public boolean isSaved(String title) {
-        boolean isSaved = false;
-        int save = 0;
-        Cursor cursor = database.rawQuery("SELECT saved FROM entry WHERE title_" + getLang() + "= " + "\"" + title + "\"", null);
+
+    public List<String> getQuizArticlesQuotes(String subcategory, String title_or_content) {
+        List<String> list = new ArrayList<>();
+        Cursor cursor = database.rawQuery("SELECT " + title_or_content + "_" + getLang() + " FROM entry WHERE sub_category = \"" + subcategory + "\"", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            save = cursor.getInt(0);
-            break;
+            list.add(cursor.getString(0));
+            cursor.moveToNext();
         }
         cursor.close();
-        if (save != 0 ) {
-            isSaved = true;
-        }
-        return isSaved;
+        return list;
     }
-
-    //saves specified article by putting 1 in database column for specified row
-    public void save(String name, int save) {
-
-        ContentValues cv = new ContentValues();
-        cv.put("saved","" + save);
-
-        database.update("entry", cv, "title_" + getLang() + "= " + "\"" + name + "\"", null);
-
-    }
-
-
 }

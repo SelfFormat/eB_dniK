@@ -9,11 +9,6 @@ public class SubClass {
     private int drawable;
     private boolean isDone;
 
-    public SubClass(String name, int drawable) {
-        this.name = name;
-        this.drawable = drawable;
-    }
-
     public SubClass(String name, boolean isDone) {
         this.name = name;
         this.isDone = isDone;

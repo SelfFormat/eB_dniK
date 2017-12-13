@@ -1,9 +1,11 @@
 package com.veriqus.savoirvivre;
 
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,8 +24,9 @@ import java.util.Random;
 
 public class QuizFragment extends Fragment {
 
-
     View rootView;
+    String subCategoryName;
+    int category;
     String question;
     String goodAnswer;
     String answer1;
@@ -48,34 +51,45 @@ public class QuizFragment extends Fragment {
     ImageView okIcon3;
     ImageView okIcon4;
     TextView progressTextView;
+    Snackbar snackbar;
     int quizListLenght;
+    View quizView;
     SharedPreferences.Editor edit;
-    public static String ca1;
     Random random = new Random();
+    OnQuizPass mCallback;
 
+    public QuizFragment() {}
 
-    public QuizFragment() {
-        // Required empty public constructor
+    public interface OnQuizPass {
+        void onQuizPassed(String quizSubCategory, int category);
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_quiz, container, false);
-
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
 
-        ca1 = "subCat1_1_phone";
-
         Bundle bundle = getArguments();
-        String categoryName = bundle.getString("CATEGORY_ID");
+        category = bundle.getInt("CATEGORY");
+        Log.i("category", category+"");
+        subCategoryName = bundle.getString("SUBCATEGORY_ID");
 
-        quotesQuestions = ((MainActivity) getContext()).getQuizQuotes(ca1, "question");
-        quotesGoodAnswers = ((MainActivity) getContext()).getQuizQuotes(ca1, "answer_good");
-        quotesAnswers1 = ((MainActivity) getContext()).getQuizQuotes(ca1, "answer_1");
-        quotesAnswers2 = ((MainActivity) getContext()).getQuizQuotes(ca1, "answer_2");
-        quotesAnswers3 = ((MainActivity) getActivity()).getQuizQuotes(ca1, "answer_3");
+        bindViews();
+        loadQuizQuestion();
+        updateProgressViews();
+
+        return rootView;
+    }
+
+    private void bindViews() {
+
+        quotesQuestions = ((MainActivity) getContext()).getQuizQuotes(subCategoryName, "question");
+        quotesGoodAnswers = ((MainActivity) getContext()).getQuizQuotes(subCategoryName, "answer_good");
+        quotesAnswers1 = ((MainActivity) getContext()).getQuizQuotes(subCategoryName, "answer_1");
+        quotesAnswers2 = ((MainActivity) getContext()).getQuizQuotes(subCategoryName, "answer_2");
+        quotesAnswers3 = ((MainActivity) getActivity()).getQuizQuotes(subCategoryName, "answer_3");
 
         quizListLenght = quotesQuestions.size();
 
@@ -86,22 +100,17 @@ public class QuizFragment extends Fragment {
         answer3text = (TextView) rootView.findViewById(R.id.answer3);
         answer4text = (TextView) rootView.findViewById(R.id.answer4);
 
-
         okIcon4 = (ImageView) rootView.findViewById(R.id.okIcon4);
         okIcon3 = (ImageView) rootView.findViewById(R.id.okIcon3);
         okIcon2 = (ImageView) rootView.findViewById(R.id.okIcon2);
         okIcon1 = (ImageView) rootView.findViewById(R.id.okIcon1);
 
+        quizView = (View) rootView.findViewById(R.id.quizLay);
 
         progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar_quiz);
         progressTextView = (TextView) rootView.findViewById(R.id.progress_textView_quiz);
 
         nextQuestion = (TextView) rootView.findViewById(R.id.next_question_button);
-
-        loadQuizQuestion();
-        updateProgressViews();
-
-        return rootView;
     }
 
     private void loadQuizQuestion() {
@@ -184,11 +193,14 @@ public class QuizFragment extends Fragment {
                     answer1text.setTextColor(getResources().getColor(R.color.colorGood));
                     okIcon1.setImageResource(R.drawable.success_green);
                     nextQuestionButton();
+                    disableAnswerButtons();
+                    showSnackbar("GOOD!",true);
+
                 } else {
                     answer1text.setBackgroundResource(R.drawable.sub_learning_bg_bad);
                     answer1text.setTextColor(getResources().getColor(R.color.colorBad));
                     okIcon1.setImageResource(R.drawable.bad_answer_icon);
-
+                    showSnackbar("Try again", false);
                 }
                 okIcon1.setVisibility(View.VISIBLE);
             }
@@ -201,12 +213,14 @@ public class QuizFragment extends Fragment {
                     answer2text.setTextColor(getResources().getColor(R.color.colorGood));
                     okIcon2.setImageResource(R.drawable.success_green);
                     nextQuestionButton();
+                    disableAnswerButtons();
+                    showSnackbar("GOOD!",true);
                 }
                 else {
                     answer2text.setBackgroundResource(R.drawable.sub_learning_bg_bad);
                     answer2text.setTextColor(getResources().getColor(R.color.colorBad));
                     okIcon2.setImageResource(R.drawable.bad_answer_icon);
-
+                    showSnackbar("Try again", false);
                 }
                 okIcon2.setVisibility(View.VISIBLE);
             }
@@ -224,13 +238,14 @@ public class QuizFragment extends Fragment {
                         answer3text.setTextColor(getResources().getColor(R.color.colorGood));
                         okIcon3.setImageResource(R.drawable.success_green);
                         nextQuestionButton();
+                        disableAnswerButtons();
+                        showSnackbar("GOOD!",true);
                     }
                     else {
                         answer3text.setBackgroundResource(R.drawable.sub_learning_bg_bad);
                         answer3text.setTextColor(getResources().getColor(R.color.colorBad));
                         okIcon3.setImageResource(R.drawable.bad_answer_icon);
-
-
+                        showSnackbar("Try again", false);
                     }
                     okIcon3.setVisibility(View.VISIBLE);
 
@@ -250,20 +265,30 @@ public class QuizFragment extends Fragment {
                         answer4text.setTextColor(getResources().getColor(R.color.colorGood));
                         okIcon4.setImageResource(R.drawable.success_green);
                         nextQuestionButton();
-
+                        disableAnswerButtons();
+                        showSnackbar("GOOD!",true);
                     }
                     else {
                         answer4text.setBackgroundResource(R.drawable.sub_learning_bg_bad);
                         answer4text.setTextColor(getResources().getColor(R.color.colorBad));
                         okIcon4.setImageResource(R.drawable.bad_answer_icon);
-
-
+                        showSnackbar("Try again", false);
                     }
                     okIcon4.setVisibility(View.VISIBLE);
-
                 }
             });
         }
+    }
+
+    private void showSnackbar(String msg, boolean good_or_bad) {
+        snackbar = Snackbar.make(quizView, msg, Snackbar.LENGTH_SHORT);
+        View sbView = snackbar.getView();
+        if(good_or_bad) {
+            sbView.setBackgroundColor(getResources().getColor(R.color.colorGood));
+        } else {
+            sbView.setBackgroundColor(getResources().getColor(R.color.colorBad));
+        }
+        snackbar.show();
     }
 
     private void setImageData() {
@@ -312,6 +337,7 @@ public class QuizFragment extends Fragment {
                     position++;
                     loadQuizQuestion();
                     updateProgressViews();
+                    snackbar.dismiss();
                 }
             });
         } else {
@@ -320,6 +346,9 @@ public class QuizFragment extends Fragment {
             nextQuestion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    snackbar.dismiss();
+                    mCallback.onQuizPassed(subCategoryName, category);
+
                     //TODO: GO TO CATEGORY PICKUP
                     //TODO: MARK CATEGORY AS COMPLETED
                 }
@@ -338,6 +367,13 @@ public class QuizFragment extends Fragment {
         }
     }
 
+    private void disableAnswerButtons(){
+        answer1text.setEnabled(false);
+        answer2text.setEnabled(false);
+        answer3text.setEnabled(false);
+        answer4text.setEnabled(false);
+    }
+
     private void clearQuizView() {
         nextQuestion.setVisibility(View.GONE);
         answer1text.setBackgroundResource(R.drawable.sub_learning_bg);
@@ -354,6 +390,25 @@ public class QuizFragment extends Fragment {
         answer2text.setTextColor(Color.parseColor("#AAAAAA"));
         answer3text.setTextColor(Color.parseColor("#AAAAAA"));
         answer4text.setTextColor(Color.parseColor("#AAAAAA"));
+
+        answer1text.setEnabled(true);
+        answer2text.setEnabled(true);
+        answer3text.setEnabled(true);
+        answer4text.setEnabled(true);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (QuizFragment.OnQuizPass) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnLearningSubSelected");
+        }
     }
 
 }

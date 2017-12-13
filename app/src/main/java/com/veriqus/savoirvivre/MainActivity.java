@@ -27,10 +27,9 @@ public class MainActivity
         implements CategoryFragment.OnHeadlineSelectedListener,
                     CategoryFragment.OnCategorySelectedListern,
                     ListArticlesFragment.OnArticleSelectedListener,
-                    ModeFragment.onModeSelectedListener,
                     SubCatListAdapter.OnLearningSubSelected,
                     ArticleSubcategoryFragment.OnQuizSelectedListener,
-                    LearningFragment.OnHeadlineSelectedListener{
+                    QuizFragment.OnQuizPass{
 
     DatabaseAccess databaseAccess;
     CategoryFragment firstFragment = new CategoryFragment();
@@ -119,11 +118,11 @@ public class MainActivity
 
 
     @Override
-    public void onLearningSubSelected(String subCatName) {
+    public void onLearningSubSelected(String subCatName, int category) {
         ArticleSubcategoryFragment newFragment = new ArticleSubcategoryFragment();
         Bundle args = new Bundle();
-        args.putString("CATEGORY_ID", subCatName);
-        args.putInt("ARTICLE_POSITION", 0);
+        args.putString("SUBCATEGORY_ID", subCatName);
+        args.putInt("CATEGORY", category);
         newFragment.setArguments(args);
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.fragment_container, newFragment);
@@ -135,10 +134,28 @@ public class MainActivity
     }
 
     @Override
-    public void onQuizSelected(String quizName) {
+    public void onQuizPassed(String quizSubCategory, int quizCategory) {
+        LearningPathFragment newLearning = new LearningPathFragment();
+        Bundle args = new Bundle();
+        args.putInt("CATEGORY", quizCategory);
+        args.putString("SUB_CATEGORY", quizSubCategory);
+        newLearning.setArguments(args);
+        fm.popBackStackImmediate(0, POP_BACK_STACK_INCLUSIVE);
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.fragment_container, newLearning);
+        transaction.addToBackStack("learningPath");
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.commit();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    }
+
+    @Override
+    public void onQuizSelected(String quizName, int category) {
         QuizFragment newFragment = new QuizFragment();
         Bundle args = new Bundle();
-        args.putString("CATEGORY_ID", quizName);
+        args.putString("SUBCATEGORY_ID", quizName);
+        args.putInt("CATEGORY", category);
         newFragment.setArguments(args);
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.fragment_container, newFragment);
@@ -176,52 +193,6 @@ public class MainActivity
         transaction.addToBackStack("listArticles");
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         setAppBarName(name);
-        transaction.commit();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    @Override
-    public void onModeSelected(String name, String mode) {
-        Bundle args = new Bundle();
-        args.putString(ModeFragment.PASSED_VALUE, name);
-        args.putString("TYPE_VALUE", mode);
-        listArticlesFragment.setArguments(args);
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.fragment_container, listArticlesFragment);
-        transaction.addToBackStack("subCategory");
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        setAppBarName(name);
-        transaction.commit();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-//
-//    @Override
-//    public void onModeSelected(String name) {
-//        Bundle args = new Bundle();
-//        args.putString(ModeFragment.PASSED_VALUE, name);
-//        listArticlesFragment.setArguments(args);
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        transaction.replace(R.id.fragment_container, listArticlesFragment);
-//        transaction.addToBackStack("subCategory");
-//        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-//        setAppBarName(name);
-//        transaction.commit();
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//    }
-
-    // if article cardview selected in mode
-    @Override
-    public void onModeSelected(String name, boolean bool) {
-        //new fragment stop error: fragment already active
-        ArticleFromModeFragment newFragment = new ArticleFromModeFragment();
-        Bundle args = new Bundle();
-        args.putString(ModeFragment.PASSED_VALUE, name);
-        newFragment.setArguments(args);
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.fragment_container, newFragment);
-        transaction.addToBackStack("article");
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        // Commit the transaction
         transaction.commit();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -306,24 +277,13 @@ public class MainActivity
         return list;
     }
 
-    public List<String> getArticleList2(String row, String title_or_content, String entry_or_quests) {
-        List<String> list = databaseAccess.getQuotes2(row, title_or_content, entry_or_quests);
-        return list;
-    }
-
-    public List<String> getArticleList(String row, String title_or_content, String type) {
-        List<String> list = databaseAccess.getQuotes(row, title_or_content, type);
+    public List<String> getQuizArticleList(String subCategory, String title_or_content) {
+        List<String> list = databaseAccess.getQuizArticlesQuotes(subCategory, title_or_content );
         return list;
     }
 
     public List<String> getQuizQuotes(String subCategory, String question_or_answer) {
         List<String> list = databaseAccess.getQuizQuotes(subCategory, question_or_answer);
-        return list;
-    }
-
-
-    public List<String> getSaved(String title_or_content) {
-        List<String> list = databaseAccess.getSavedArticles(title_or_content);
         return list;
     }
 
@@ -343,11 +303,6 @@ public class MainActivity
 
     public String getArticleTitlebyID(String id) {
         return databaseAccess.getArticleTitlebyID(id);
-    }
-
-
-    public void save(String name, int save) {
-        databaseAccess.save(name, save);
     }
 
     public byte[] getImageByte(String name){
@@ -378,16 +333,6 @@ public class MainActivity
         ft.replace(R.id.fragment_container, newFragment, tag)
                 .commit();
 
-    }
-
-    public boolean isSaved(String title){
-        boolean isSaved = databaseAccess.isSaved(title);
-        return isSaved;
-    }
-
-    private String randomArticle(){
-        String articleName = "";
-        return articleName;
     }
 
     public String getArticleID(String name) {
@@ -424,6 +369,36 @@ public class MainActivity
             e.printStackTrace();
         }
         return outputMap;
+    }
+
+    public String getSubCategoryIDByName(String categoryName) {
+        String subCategoryID = "";
+        if (categoryName.equals(getString(R.string.cat1_answeringphone))) {
+            subCategoryID = "cat1_answeringphone";
+        } else if (categoryName.equals(getString(R.string.cat1_esport))) {
+            subCategoryID = "cat1_esport";
+        } else if (categoryName.equals(getString(R.string.cat1_mailintro))) {
+            subCategoryID = "cat1_mailintro";
+        }
+        else if (categoryName.equals(getString(R.string.cat1_mailsubject))){
+            subCategoryID = "cat1_mailsubject";
+        }
+        else if (categoryName.equals(getString(R.string.cat1_onlinecomments))){
+            subCategoryID = "cat1_onlinecomments";
+        }
+        else if (categoryName.equals(getString(R.string.cat1_onlineshopping))){
+            subCategoryID = "cat1_onlineshopping";
+        }
+        else if (categoryName.equals(getString(R.string.cat1_socialmedia))){
+            subCategoryID = "cat1_socialmedia";
+        }
+        else if (categoryName.equals(getString(R.string.cat1_textmessages))){
+            subCategoryID = "cat1_textmessages";
+        }
+        else if (categoryName.equals(getString(R.string.cat1_phonepublic))){
+            subCategoryID = "cat1_phonepublic";
+        }
+        return subCategoryID;
     }
 
     public String getCategoryIDByName(String categoryName){

@@ -44,9 +44,11 @@ public class ArticleSubcategoryFragment extends Fragment {
     SharedPreferences.Editor edit;
     public static String ca1;
     OnQuizSelectedListener mCallback;
+    String subCategoryID;
+    int categoryID;
 
     public interface OnQuizSelectedListener {
-        public void onQuizSelected(String quizCategory);
+        public void onQuizSelected(String quizCategory, int category);
     }
 
 
@@ -67,10 +69,13 @@ public class ArticleSubcategoryFragment extends Fragment {
         //dip16toPx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, r.getDisplayMetrics());
 
         Bundle bundle = getArguments();
-        String categoryID = bundle.getString("CATEGORY_ID");
-        Log.i("CatID", categoryID);
-        categoryID = "subCat1_1_phone";
-        ca1 = categoryID;
+        subCategoryID = bundle.getString("SUBCATEGORY_ID");
+        categoryID = bundle.getInt("CATEGORY");
+        Log.i("SubCatID", subCategoryID);
+        Log.i("category", categoryID+"");
+
+        ca1 = subCategoryID;
+        position = 0;
         //position = bundle.getInt("ARTICLE_POSITION");
 
         swipeLay = rootView.findViewById(R.id.swipeLay);
@@ -126,8 +131,8 @@ public class ArticleSubcategoryFragment extends Fragment {
         });
 
 
-        quotesTitles = ((MainActivity) getActivity()).getArticleList(categoryID, "title");
-        quotesContents = ((MainActivity) getActivity()).getArticleList(categoryID, "content");
+        quotesTitles = ((MainActivity) getActivity()).getQuizArticleList(subCategoryID, "title");
+        quotesContents = ((MainActivity) getActivity()).getQuizArticleList(subCategoryID, "content");
 
         articleListLenght = quotesTitles.size();
 
@@ -266,7 +271,7 @@ public class ArticleSubcategoryFragment extends Fragment {
             startQuiz.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mCallback.onQuizSelected(ca1);
+                    mCallback.onQuizSelected(subCategoryID, categoryID);
                 }
             });
         }

@@ -188,14 +188,6 @@ public class CategoryFragment extends Fragment {
                 categoryItems.addView(cardView);
             }
 
-
-            // Line separator:
-
-//            View line = new View(getContext());
-//            LinearLayout.LayoutParams lineParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dip1);
-//            line.setBackgroundColor(Color.parseColor("#CCCCCC"));
-//            mainLinear.addView(line, lineParams);
-
         }
 
         return rootView;
@@ -205,9 +197,6 @@ public class CategoryFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception
         try {
             mCallback = (OnHeadlineSelectedListener) activity;
             cCallback = (OnCategorySelectedListern) activity;
