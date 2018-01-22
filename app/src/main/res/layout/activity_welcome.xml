@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_margin="40dp"
-        android:src="@drawable/bearintro"/>
+        android:src="@drawable/bear_intro_logo"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -28,6 +28,5 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:visibility="gone"/>
-
 
 </RelativeLayout>

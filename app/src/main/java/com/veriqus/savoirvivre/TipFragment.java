@@ -84,7 +84,7 @@ public class TipFragment extends Fragment {
                     String ID = ((MainActivity) getActivity()).getArticleID(articleName);
                     savedList.put(ID, ID);
                     ((MainActivity) getActivity()).saveMap(savedList);
-                    saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_love_black));
+                    saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_red_24dp));
                 } else {
                     saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_black_36dp));
                     String ID = ((MainActivity) getActivity()).getArticleID(articleName);
@@ -141,17 +141,17 @@ public class TipFragment extends Fragment {
         articleContentText.setText(articleContent);
 
         imgPlace = (ImageView) rootView.findViewById(R.id.imgPlace);
-        byte[] data = ((MainActivity) getActivity()).getImageByte(articleName);
+        byte[] imgByteData = ((MainActivity) getActivity()).getImageByte(articleName);
         int lenData = 0;
-        if(!data.equals(null)){
-            lenData = data.length;
+        if (!imgByteData.equals(null)) {
+            lenData = imgByteData.length;
         }
-        if (!data.equals(null) && lenData > 1) {
 
-            //imgPlace.setPadding(dip20, dip20, dip20 ,dip20);
+        if (!imgByteData.equals(null) && lenData > 1) {
+//            imgPlace.setPadding(dip16toPx, dip16toPx, dip16toPx, dip16toPx);
             Log.i("Image:", "shown");
             Glide.with(getActivity())
-                    .load(data).asBitmap()
+                    .load(imgByteData).asBitmap()
                     .into(imgPlace);
             imgPlace.setVisibility(View.VISIBLE);
         } else {
@@ -162,7 +162,7 @@ public class TipFragment extends Fragment {
         if (!isSaved) {
             saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_black_36dp));
         } else {
-            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_love_black));
+            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_red_24dp));
         }
     }
 

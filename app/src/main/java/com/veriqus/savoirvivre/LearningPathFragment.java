@@ -2,7 +2,7 @@ package com.veriqus.savoirvivre;
 
 
 import android.app.Activity;
-import android.content.SharedPreferences;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +24,10 @@ import java.util.List;
  */
 public class LearningPathFragment extends Fragment {
 
+    private static final String TAG = "Saved Cat: ";
     View rootView;
     SubCatListAdapter.OnLearningSubSelected mCallback;
+    Context context;
     boolean isDone;
 
     final List<SubClass> category1 = new ArrayList<>();
@@ -35,6 +38,11 @@ public class LearningPathFragment extends Fragment {
     final List<SubClass> category6 = new ArrayList<>();
     final List<SubClass> category7 = new ArrayList<>();
 
+    final List<SubClass> fullListOfSubCategories = new ArrayList<>();
+
+    ArrayList<String> completedCategories = new ArrayList<>();
+    TinyDB completedCategoriesDatabase;
+
     public LearningPathFragment() {}
 
     @Override
@@ -42,15 +50,34 @@ public class LearningPathFragment extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_learning_path, container, false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        completedCategoriesDatabase = new TinyDB(getContext());
 
-        SharedPreferences settingsIntro = getContext().getSharedPreferences(ArticleFragment.ca1, 0);
-        isDone = settingsIntro.getBoolean(ArticleFragment.ca1, false);
+
+
+        completedCategories = completedCategoriesDatabase.getListString("COMPLETED_CATEGORIES");
+        for (int i = 0; i < completedCategories.size(); i++) {
+            Log.i(TAG, completedCategories.get(i));
+        }
+
 
         Bundle bundle = getArguments();
         final int category = bundle.getInt("CATEGORY");
+        generateSubCategories(category);
+        restoreFromSaved(category);
         String subCategoryFromBundle = bundle.getString("SUB_CATEGORY");
         Log.i("Subcat recevied:", subCategoryFromBundle+"");
-        generateSubCategories(category);
+        if(subCategoryFromBundle != null) {
+            String recivedSubCatName = ((MainActivity)getActivity()).getSubCategoryNameByID(subCategoryFromBundle);
+            for (int i = 0; i < chooseCategory(category).size(); i++) {
+                if (recivedSubCatName.equals(chooseCategory(category).get(i).getName())){
+                    Toast.makeText(getContext(), subCategoryFromBundle, Toast.LENGTH_SHORT).show();
+                    chooseCategory(category).get(i).setDone();
+                    completedCategories.add(recivedSubCatName);
+                    completedCategoriesDatabase.putListString("COMPLETED_CATEGORIES", completedCategories);
+
+                }
+            }
+        }
 
         RecyclerView rc = (RecyclerView) rootView.findViewById(R.id.rvSub);
         SubCatListAdapter adapter = new SubCatListAdapter(getContext(), chooseCategory(category));
@@ -69,6 +96,17 @@ public class LearningPathFragment extends Fragment {
         categoryTextView.setText(getString(category));
 
         return rootView;
+    }
+
+
+    private void restoreFromSaved(int category){
+        if(!completedCategories.isEmpty()) {
+            for (int i = 0; i < completedCategories.size(); i++) {
+                if (completedCategories.get(i).equals(chooseCategory(category).get(i).getName())){
+                    chooseCategory(category).get(i).setDone();
+                }
+            }
+        }
     }
 
     private List<SubClass> chooseCategory(int category) {
@@ -103,6 +141,7 @@ public class LearningPathFragment extends Fragment {
                 category1.add(new SubClass(getString(R.string.cat1_onlineshopping)));
                 category1.add(new SubClass(getString(R.string.cat1_onlinecomments)));
                 category1.add(new SubClass(getString(R.string.cat1_esport)));
+                fullListOfSubCategories.addAll(category1);
                 break;
             case R.string.category_2:
                 category2.add(new SubClass("Szwedzki stół"));

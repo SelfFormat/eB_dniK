@@ -63,6 +63,8 @@ public class ArticleFragment extends Fragment {
         Resources r = getResources();
         dip16toPx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, r.getDisplayMetrics());
 
+
+
         Bundle bundle = getArguments();
         String categoryID = bundle.getString("CATEGORY_ID");
         Log.i("CatID", categoryID);
@@ -217,7 +219,7 @@ public class ArticleFragment extends Fragment {
             String ID = ((MainActivity) getActivity()).getArticleID(articleName);
             savedList.put(ID, ID);
             ((MainActivity) getActivity()).saveMap(savedList);
-            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_love_black));
+            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_red_24dp));
         } else {
             saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_black_36dp));
             String ID = ((MainActivity) getActivity()).getArticleID(articleName);
@@ -269,7 +271,7 @@ public class ArticleFragment extends Fragment {
         if (!isSaved) {
             saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_black_36dp));
         } else {
-            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_love_black));
+            saveIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_red_24dp));
         }
 
     }

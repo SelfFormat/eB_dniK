@@ -19,6 +19,10 @@ public class SubClass {
         this.isDone = false;
     }
 
+    public void setDone() {
+        isDone = true;
+    }
+
     public boolean isDone() {
         return isDone;
     }

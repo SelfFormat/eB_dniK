@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -137,23 +138,56 @@ public class CategoryFragment extends Fragment {
         categories.add(6, new Category("7", getContext().getString(R.string.category_7), subCat_7, R.string.category_7));
 
         for (int i = 0; i < categories.size(); i++) {
+
+
+            LinearLayout titleAndIcon = new LinearLayout(getContext());
+            titleAndIcon.setOrientation(LinearLayout.HORIZONTAL);
+            titleAndIcon.setPadding(dip15, 0, dip15, 0);
+            titleAndIcon.setHorizontalGravity(Gravity.CENTER);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            mainLinear.addView(titleAndIcon,params);
+
+
             final String category = categories.get(i).getName();
             TextView categoryText = new TextView(getContext());
             final int catID = categories.get(i).getStringID();
             categoryText.setText(category);
             categoryText.setTextSize(px20);
             categoryText.setTextColor(Color.BLACK);
+            categoryText.setGravity(Gravity.LEFT);
             categoryText.setTypeface(null, Typeface.NORMAL);
-            categoryText.setOnClickListener(new View.OnClickListener() {
+//            categoryText.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    cCallback.onCategorySelected(catID);
+//                }
+//            });
+
+
+            ImageView learningButton = new ImageView(getContext());
+            LinearLayout.LayoutParams paramImg = new LinearLayout.LayoutParams(80, 80);
+            paramImg.gravity = Gravity.BOTTOM;
+            paramImg.setMargins(0, dip15, 0, 10);
+
+            learningButton.setImageDrawable(rootView.getResources().getDrawable(R.drawable.book5));
+            learningButton.setBottom(2);
+
+            learningButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     cCallback.onCategorySelected(catID);
                 }
             });
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.setMargins(dip15, dip15, dip15, 10);
 
-            mainLinear.addView(categoryText, params);
+
+            LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 0.3f);
+            params1.setMargins(0, dip15, 0, 10);
+            LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 0.7f);
+            params2.setMargins(0, dip15, 0, 10);
+
+
+            titleAndIcon.addView(categoryText, params1);
+            titleAndIcon.addView(learningButton, paramImg);
 
             HorizontalScrollView horizonScrl = new HorizontalScrollView(getContext());
             horizonScrl.setHorizontalScrollBarEnabled(false);

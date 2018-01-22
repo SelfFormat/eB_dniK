@@ -76,5 +76,6 @@
     <string name="cat1_mailintro">Zawartość maila</string>
     <string name="cat1_mailsubject">Tytuł maila</string>
     <string name="cat1_onlineshopping">Sklepy i aukcje internetowe</string>
+    <string name="passQuiz">Rozwiąż quiz na koniec samouczka, aby przejść kategorię</string>
 
 </resources>

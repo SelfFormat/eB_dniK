@@ -401,6 +401,36 @@ public class MainActivity
         return subCategoryID;
     }
 
+    public String getSubCategoryNameByID(String categoryName) {
+        String subCategoryID = "";
+        if (categoryName.equals("cat1_answeringphone")) {
+            subCategoryID = getString(R.string.cat1_answeringphone);
+        } else if (categoryName.equals("cat1_esport")) {
+            subCategoryID = getString(R.string.cat1_esport);
+        } else if (categoryName.equals("cat1_mailintro")) {
+            subCategoryID = getString(R.string.cat1_mailintro);
+        }
+        else if (categoryName.equals("cat1_mailsubject")){
+            subCategoryID = getString(R.string.cat1_mailsubject);
+        }
+        else if (categoryName.equals("cat1_onlinecomments")){
+            subCategoryID = getString(R.string.cat1_onlinecomments);
+        }
+        else if (categoryName.equals("cat1_onlineshopping")){
+            subCategoryID = getString(R.string.cat1_onlineshopping);
+        }
+        else if (categoryName.equals("cat1_socialmedia")){
+            subCategoryID = getString(R.string.cat1_socialmedia);
+        }
+        else if (categoryName.equals("cat1_textmessages")){
+            subCategoryID = getString(R.string.cat1_textmessages);
+        }
+        else if (categoryName.equals("cat1_phonepublic")){
+            subCategoryID = getString(R.string.cat1_phonepublic);
+        }
+        return subCategoryID;
+    }
+
     public String getCategoryIDByName(String categoryName){
         String categoryID = "";
 

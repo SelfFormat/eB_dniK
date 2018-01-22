@@ -24,6 +24,7 @@
     <string name="good">Good habit</string>
     <string name="bad">Bad habit</string>
     <string name="gotit">Ok, got it!</string>
+    <string name="passQuiz">"Get through quiz after tutorial to pass every category"</string>
     <string name="repetiton">Come back later</string>
     <string name="select_category">Select category</string>
 
