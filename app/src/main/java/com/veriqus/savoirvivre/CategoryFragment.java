@@ -53,7 +53,7 @@ public class CategoryFragment extends Fragment {
 
         Resources r = getResources();
 
-        View tutorialView = rootView.findViewById(R.id.tutorialView);
+        final View tutorialView = rootView.findViewById(R.id.tutorialView);
         boolean tutorialShown = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(NO_MORE_DEMO, false);
         if (!tutorialShown) {
             ImageView imageView = (ImageView) rootView.findViewById(R.id.swipe);
@@ -62,7 +62,14 @@ public class CategoryFragment extends Fragment {
             tutorialView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    v.setVisibility(View.GONE);
+                    //Do nothing to disable underlay buttons
+                }
+            });
+            ImageView okGotIt = (ImageView) rootView.findViewById(R.id.okGotIt);
+            okGotIt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tutorialView.setVisibility(View.GONE);
                     PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putBoolean(NO_MORE_DEMO, true).apply();
                 }
             });

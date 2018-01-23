@@ -96,5 +96,7 @@
     <string name="cat1_socialmedia">Social media</string>
     <string name="cat1_onlinecomments">Online comments</string>
     <string name="cat1_phonepublic">Using the phone in public places</string>
+    <string name="ok_got_it">OK, Got it!</string>
+    <string name="swipe_tutorial">Swipe icons right to see more categories</string>
 
 </resources>

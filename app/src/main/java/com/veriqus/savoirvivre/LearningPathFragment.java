@@ -38,8 +38,6 @@ public class LearningPathFragment extends Fragment {
     final List<SubClass> category6 = new ArrayList<>();
     final List<SubClass> category7 = new ArrayList<>();
 
-    final List<SubClass> fullListOfSubCategories = new ArrayList<>();
-
     ArrayList<String> completedCategories = new ArrayList<>();
     TinyDB completedCategoriesDatabase;
 
@@ -100,10 +98,12 @@ public class LearningPathFragment extends Fragment {
 
 
     private void restoreFromSaved(int category){
-        if(!completedCategories.isEmpty()) {
+        if(!completedCategories.isEmpty() && chooseCategory(category) != null) {
             for (int i = 0; i < completedCategories.size(); i++) {
-                if (completedCategories.get(i).equals(chooseCategory(category).get(i).getName())){
-                    chooseCategory(category).get(i).setDone();
+                for (int j = 0; j < chooseCategory(category).size(); j++) {
+                    if (completedCategories.get(i).equals(chooseCategory(category).get(j).getName())) {
+                        chooseCategory(category).get(j).setDone();
+                    }
                 }
             }
         }
@@ -141,7 +141,6 @@ public class LearningPathFragment extends Fragment {
                 category1.add(new SubClass(getString(R.string.cat1_onlineshopping)));
                 category1.add(new SubClass(getString(R.string.cat1_onlinecomments)));
                 category1.add(new SubClass(getString(R.string.cat1_esport)));
-                fullListOfSubCategories.addAll(category1);
                 break;
             case R.string.category_2:
                 category2.add(new SubClass("Szwedzki stół"));
