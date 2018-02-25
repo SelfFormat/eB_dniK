@@ -31,6 +31,7 @@ public class WelcomeActivity extends AppCompatActivity {
         TextView okButton = (TextView) findViewById(R.id.okButton);
         final Intent toTheMain = new Intent(WelcomeActivity.this, MainActivity.class);
 
+
         if (noMoreIntro) {
             new Handler().postDelayed(new Runnable() {
                 @Override
